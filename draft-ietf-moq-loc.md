@@ -1,7 +1,7 @@
 ---
 title: Low Overhead Media Container
 abbrev: media-container
-docname: draft-ietf-moq-loc
+docname: draft-ietf-moq-loc-latest
 submissiontype: IETF
 area: "Web and Internet Transport"
 workgroup: "Media Over QUIC"
