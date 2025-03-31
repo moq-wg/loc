@@ -145,9 +145,9 @@ A 4-byte start code can be sent before each NAL Unit, similar to "annexB" format
 ## MOQ Object Mapping
 
 An application object when transported as a {{MoQTransport}} object is composed of
-a MOQ Object Header, with optional Extensions, and a Payload. 
+a MOQ Object Header, with optional Extensions, and a Payload.
 Media objects encoded using the container format defined in this
-specification populate the MOQ Object Payload with the LOC Payload, and 
+specification populate the MOQ Object Payload with the LOC Payload, and
 the MOQ Object Header Extensions with the LOC Header Extensions, as shown below.
 
 The LOC Payload is the "internal data" of an EncodedAudioChunk or EncodedVideoChunk.
@@ -178,9 +178,9 @@ LOC Payload = "internal data" of EncodedAudio/VideoChunk
 
 The LOC Header Extensions carry optional metadata for the corresponding LOC Payload.
 The LOC Header Extensions are contained within the MOQ Object Header Extensions.
-This metadata provides necessary information for 
+This metadata provides necessary information for
 end subscribers, relays and other intermediaries
-to perform their operations without accessing the media payload. For example, 
+to perform their operations without accessing the media payload. For example,
 media switches can use this metadata to perform their media switching decisions
 without accessing the payload which may be encrypted end-to-end
 (from original publisher to end subscribers).
@@ -236,7 +236,7 @@ significant bits of a varint.
 
 * Name: Audio Level
 * Description: The magnitude of the audio level of the corresponding audio frame
-as well as a voice activity indicator as defined in section 3 of {{!RFC6464}}, 
+as well as a voice activity indicator as defined in section 3 of {{!RFC6464}},
 encoded in the least significant 8 bits of a varint.
 * ID: 6 (IANA, please assign from the MOQ Header Extensions Registry)
 * Length: Varies (1-2 bytes)
