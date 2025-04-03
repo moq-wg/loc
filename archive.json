@@ -1,0 +1,87 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2025-04-03T01:46:29.837059+00:00",
+  "repo": "moq-wg/loc",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 1,
+      "id": "I_kwDOOR0qw86whrHV",
+      "title": "Move catalog section to WARP draft",
+      "url": "https://github.com/moq-wg/loc/issues/1",
+      "state": "OPEN",
+      "author": "mzanaty",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "WG consensus is to move the catalog section from LOC to WARP draft.",
+      "createdAt": "2025-03-31T21:27:15Z",
+      "updatedAt": "2025-03-31T21:27:15Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 2,
+      "id": "I_kwDOOR0qw86wi9ji",
+      "title": "Add mechanism to define object encryption",
+      "url": "https://github.com/moq-wg/loc/issues/2",
+      "state": "OPEN",
+      "author": "suhasHere",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-04-01T01:40:31Z",
+      "updatedAt": "2025-04-01T01:40:31Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
+  "pulls": []
+}
