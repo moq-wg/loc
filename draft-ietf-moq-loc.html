@@ -12,13 +12,12 @@
        This specification describes a Low Overhead Media Container (LOC) format for
 encoded and encrypted audio and video media data to be used
 primarily for interactive Media over QUIC Transport (MOQT).
-It further defines the
-LOC Streaming Format for the MOQ Common Catalog format
+It may be used in the WARP streaming specification, which defines a catalog format
 for publishers to annouce and describe their LOC tracks and for
 subscribers to consume them. Examples are also provided
 for building media applications using LOC and MOQT. 
     " name="description">
-<meta content="xml2rfc 3.28.0" name="generator">
+<meta content="xml2rfc 3.29.0" name="generator">
 <meta content="LOC" name="keyword">
 <meta content="MOQ" name="keyword">
 <meta content="MOQT" name="keyword">
@@ -26,18 +25,18 @@ for building media applications using LOC and MOQT.
 <meta content="media" name="keyword">
 <meta content="draft-ietf-moq-loc-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.28.0
-    Python 3.12.9
+  xml2rfc 3.29.0
+    Python 3.12.11
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.6
-    lxml 5.3.0
-    platformdirs 4.3.6
+    lxml 5.3.1
+    platformdirs 4.3.8
     pycountry 24.6.1
     PyYAML 6.0.2
-    requests 2.32.3
-    setuptools 70.3.0
+    requests 2.32.4
+    setuptools 80.9.0
     wcwidth 0.2.13
 -->
 <link href="draft-ietf-moq-loc.xml" rel="alternate" type="application/rfc+xml">
@@ -1057,11 +1056,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">media-container</td>
-<td class="right">March 2025</td>
+<td class="right">July 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Zanaty, et al.</td>
-<td class="center">Expires 2 October 2025</td>
+<td class="center">Expires 8 January 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1074,12 +1073,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-moq-loc-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-03-31" class="published">31 March 2025</time>
+<time datetime="2025-07-07" class="published">7 July 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-10-02">2 October 2025</time></dd>
+<dd class="expires"><time datetime="2026-01-08">8 January 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1103,8 +1102,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <p id="section-abstract-1">This specification describes a Low Overhead Media Container (LOC) format for
 encoded and encrypted audio and video media data to be used
 primarily for interactive Media over QUIC Transport (MOQT).
-It further defines the
-LOC Streaming Format for the MOQ Common Catalog format
+It may be used in the WARP streaming specification, which defines a catalog format
 for publishers to annouce and describe their LOC tracks and for
 subscribers to consume them. Examples are also provided
 for building media applications using LOC and MOQT.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
@@ -1144,7 +1142,7 @@ for building media applications using LOC and MOQT.<a href="#section-abstract-1"
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 2 October 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 8 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1224,78 +1222,53 @@ for building media applications using LOC and MOQT.<a href="#section-abstract-1"
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-catalog" class="internal xref">Catalog</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-catalog-fields" class="internal xref">Catalog Fields</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.1">
-                    <p id="section-toc.1-1.3.2.1.2.1.1"><a href="#section-3.1.1" class="auto internal xref">3.1.1</a>.  <a href="#name-optional-extensions-for-vid" class="internal xref">Optional Extensions for Video</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.2">
-                    <p id="section-toc.1-1.3.2.1.2.2.1"><a href="#section-3.1.2" class="auto internal xref">3.1.2</a>.  <a href="#name-selection-parameters-for-vi" class="internal xref">Selection Parameters for Video</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.3">
-                    <p id="section-toc.1-1.3.2.1.2.3.1"><a href="#section-3.1.3" class="auto internal xref">3.1.3</a>.  <a href="#name-optional-extensions-for-aud" class="internal xref">Optional Extensions for Audio</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.4">
-                    <p id="section-toc.1-1.3.2.1.2.4.1"><a href="#section-3.1.4" class="auto internal xref">3.1.4</a>.  <a href="#name-selection-parameters-for-au" class="internal xref">Selection Parameters for Audio</a></p>
-</li>
-                </ul>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
-                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-catalog-examples" class="internal xref">Catalog Examples</a></p>
-</li>
-            </ul>
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-payload-encryption" class="internal xref">Payload Encryption</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
-            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-payload-encryption" class="internal xref">Payload Encryption</a></p>
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-application-with-one-audio-" class="internal xref">Application with one audio track</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-application-with-one-single" class="internal xref">Application with one single quality video track</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-application-with-single-vid" class="internal xref">Application with single video track with temporal layers</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.4">
+                <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="auto internal xref">4.4</a>.  <a href="#name-application-with-mutiple-de" class="internal xref">Application with mutiple dependent video tracks</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.5">
+                <p id="section-toc.1-1.4.2.5.1"><a href="#section-4.5" class="auto internal xref">4.5</a>.  <a href="#name-application-with-mutiple-dep" class="internal xref">Application with mutiple dependent video tracks with dyadic framerate levels.</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.6">
+                <p id="section-toc.1-1.4.2.6.1"><a href="#section-4.6" class="auto internal xref">4.6</a>.  <a href="#name-application-with-multiple-s" class="internal xref">Application with multiple simulcast qualities video tracks</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
-            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
-                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-application-with-one-audio-" class="internal xref">Application with one audio track</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
-                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-application-with-one-single" class="internal xref">Application with one single quality video track</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
-                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-application-with-single-vid" class="internal xref">Application with single video track with temporal layers</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4">
-                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-application-with-mutiple-de" class="internal xref">Application with mutiple dependent video tracks</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.5">
-                <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="auto internal xref">5.5</a>.  <a href="#name-application-with-mutiple-dep" class="internal xref">Application with mutiple dependent video tracks with dyadic framerate levels.</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.6">
-                <p id="section-toc.1-1.5.2.6.1"><a href="#section-5.6" class="auto internal xref">5.6</a>.  <a href="#name-application-with-multiple-s" class="internal xref">Application with multiple simulcast qualities video tracks</a></p>
-</li>
-            </ul>
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-security-and-privacy-consid" class="internal xref">Security and Privacy Considerations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-security-and-privacy-consid" class="internal xref">Security and Privacy Considerations</a></p>
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-references" class="internal xref">References</a></p>
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-references" class="internal xref">References</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
-                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
-                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
+                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
 </li>
             </ul>
 </li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-acknowledgements" class="internal xref">Acknowledgements</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-acknowledgements" class="internal xref">Acknowledgements</a></p>
 </li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1306,8 +1279,8 @@ for building media applications using LOC and MOQT.<a href="#section-abstract-1"
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">This specification describes a low-overhead media container format for
-encoded and encrypted audio and video media data, as well as a MOQ Common Catalog streaming format called LOC to describe such tracks.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-1">This specification describes a low-overhead media container (LOC) format for
+encoded and encrypted audio and video media data.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">"Low-overhead" refers to minimal extra encapsulation as well as minimal application overhead when interfacing with WebCodecs <span>[<a href="#WebCodecs" class="cite xref">WebCodecs</a>]</span>.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">The container format description is specified for all audio and video codecs defined in the
 WebCodecs Codec Registry <span>[<a href="#WEBCODECS-CODEC-REGISTRY" class="cite xref">WEBCODECS-CODEC-REGISTRY</a>]</span>.
@@ -1334,7 +1307,11 @@ Codec Registry avoids duplicating it in an identical IANA registry.<a href="#sec
           <p id="section-1-8.2.1"><a href="#headers" class="auto internal xref">Section 2.3</a> defines the metadata associated with audio and video payloads.<a href="#section-1-8.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-1-8.3">
-          <p id="section-1-8.3.1"><a href="#catalog" class="auto internal xref">Section 3</a> describes the LOC Streaming Format bindings to the MoQ Common Catalog format including examples.<a href="#section-1-8.3.1" class="pilcrow">¶</a></p>
+          <p id="section-1-8.3.1"><a href="#encryption" class="auto internal xref">Section 3</a> defines the usage of end-to-end encrypted LOC payloads.<a href="#section-1-8.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-1-8.4">
+          <p id="section-1-8.4.1"><a href="#examples" class="auto internal xref">Section 4</a> provides examples with details for building audio and video applications
+using LOC over MOQ.<a href="#section-1-8.4.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <div id="requirements-notation-and-conventions">
@@ -1552,7 +1529,7 @@ when the encoded media frame was captured, encoded as a varint.<a href="#section
               <li class="normal" id="section-2.3.2.2-1.2">
                 <p id="section-2.3.2.2-1.2.1">Description: Flags for video frames which are independent, discardable, or
 base layer sync points, as well as temporal and spatial layer
-identification, as defined in <span>[<a href="#Framemarking" class="cite xref">Framemarking</a>]</span>, encoded in the least
+identification, as defined in <span>[<a href="#RFC9626" class="cite xref">RFC9626</a>]</span>, encoded in the least
 significant bits of a varint.<a href="#section-2.3.2.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-2.3.2.2-1.3">
@@ -1606,159 +1583,37 @@ encoded in the least significant 8 bits of a varint.<a href="#section-2.3.3.1-1.
 </div>
 </section>
 </div>
-<div id="catalog">
+<div id="encryption">
 <section id="section-3">
-      <h2 id="name-catalog">
-<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-catalog" class="section-name selfRef">Catalog</a>
-      </h2>
-<p id="section-3-1">A catalog track provides information about tracks from a given publisher. A catalog is used by subscribers for consuming tracks and by publishers
-to advertise and describe the tracks. The content of a catalog is opaque to the relays and may be end to end encrypted. A catalog describes the details of tracks such as Track IDs and corresponding media configuration details, for example, audio/video codec details.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<p id="section-3-2">The LOC Streaming Format uses the MoQ Common Catalog Format <span>[<a href="#MoQCatalog" class="cite xref">MoQCatalog</a>]</span> to describe the content being produced by a publisher.<a href="#section-3-2" class="pilcrow">¶</a></p>
-<p id="section-3-3">Per Sect 5.1 of <span>[<a href="#MoQCatalog" class="cite xref">MoQCatalog</a>]</span>, this document registers an entry in the "MoQ Streaming Format Type" table, with the type value 2, the name "LOC Streaming Format", and the RFC XXX.<a href="#section-3-3" class="pilcrow">¶</a></p>
-<p id="section-3-4">Every LOC catalog track <span class="bcp14">MUST</span> declare a streaming format type (See Sect 3.2.1 of <span>[<a href="#MoQCatalog" class="cite xref">MoQCatalog</a>]</span>) value of 2.<a href="#section-3-4" class="pilcrow">¶</a></p>
-<p id="section-3-5">Every LOC catalog track <span class="bcp14">MUST</span> declare a streaming format version (See Sect 3.2.1 of <span>[<a href="#MoQCatalog" class="cite xref">MoQCatalog</a>]</span>) value of 1, which is the version described in this document.<a href="#section-3-5" class="pilcrow">¶</a></p>
-<p id="section-3-6">Every LOC catalog track <span class="bcp14">MUST</span> declare a packaging type (See Sect 3.2.9 of <span>[<a href="#MoQCatalog" class="cite xref">MoQCatalog</a>]</span>) of "loc".<a href="#section-3-6" class="pilcrow">¶</a></p>
-<p id="section-3-7">The catalog track <span class="bcp14">MUST</span> have a track name of "catalog". A catalog object <span class="bcp14">MAY</span> be independent of other catalog objects or it <span class="bcp14">MAY</span> represent a delta update of a prior catalog object. The first catalog object published within a new group <span class="bcp14">MUST</span> be independent. A catalog object <span class="bcp14">SHOULD</span> only be published only when the availability of tracks changes.<a href="#section-3-7" class="pilcrow">¶</a></p>
-<p id="section-3-8">Each catalog update <span class="bcp14">MUST</span> be mapped to a discreet moq-transport object.<a href="#section-3-8" class="pilcrow">¶</a></p>
-<div id="catalog-fields">
-<section id="section-3.1">
-        <h3 id="name-catalog-fields">
-<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-catalog-fields" class="section-name selfRef">Catalog Fields</a>
-        </h3>
-<p id="section-3.1-1">The MOQ Common Catalog defines the required base fields and optional extensions.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
-<div id="video-ext">
-<section id="section-3.1.1">
-          <h4 id="name-optional-extensions-for-vid">
-<a href="#section-3.1.1" class="section-number selfRef">3.1.1. </a><a href="#name-optional-extensions-for-vid" class="section-name selfRef">Optional Extensions for Video</a>
-          </h4>
-<p id="section-3.1.1-1">The LOC Streaming Format allows the following optional extensions for video media.<a href="#section-3.1.1-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3.1.1-2.1">
-              <p id="section-3.1.1-2.1.1">temporalId: Identifies the temporal layer/sub-layer encoded, starting with 0 for the base layer, and increasing with higher temporal fidelity.<a href="#section-3.1.1-2.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.1.1-2.2">
-              <p id="section-3.1.1-2.2.1">spatialId: Identifies the spatial and quality layer encoded, starting with 0 for the base layer, and increasing with higher fidelity.<a href="#section-3.1.1-2.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.1.1-2.3">
-              <p id="section-3.1.1-2.3.1">depends: Identifies track dependencies for a given track, usually for video media with scalable layers in separate tracks.<a href="#section-3.1.1-2.3.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.1.1-2.4">
-              <p id="section-3.1.1-2.4.1">renderGroup: Identifies a group of time-aligned tracks which should be rendered simultaneously.<a href="#section-3.1.1-2.4.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.1.1-2.5">
-              <p id="section-3.1.1-2.5.1">selectionParams: Selection parameters for media quality, fidelity, etc.; see next section.<a href="#section-3.1.1-2.5.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
-<div id="profile">
-<section id="section-3.1.2">
-          <h4 id="name-selection-parameters-for-vi">
-<a href="#section-3.1.2" class="section-number selfRef">3.1.2. </a><a href="#name-selection-parameters-for-vi" class="section-name selfRef">Selection Parameters for Video</a>
-          </h4>
-<p id="section-3.1.2-1">Each video track can have the following associated Selection Parameters.<a href="#section-3.1.2-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3.1.2-2.1">
-              <p id="section-3.1.2-2.1.1">codec: Codec information (including profile, level, tier, etc.), as defined by the codec registrations listed in <span>[<a href="#WEBCODECS-CODEC-REGISTRY" class="cite xref">WEBCODECS-CODEC-REGISTRY</a>]</span>.<a href="#section-3.1.2-2.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.1.2-2.2">
-              <p id="section-3.1.2-2.2.1">framerate: As defined in section 7.8 of <span>[<a href="#WEBCODECS-CODEC-REGISTRY" class="cite xref">WEBCODECS-CODEC-REGISTRY</a>]</span>.<a href="#section-3.1.2-2.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.1.2-2.3">
-              <p id="section-3.1.2-2.3.1">bitrate: As defined in section 7.7 and 7.8 of <span>[<a href="#WEBCODECS-CODEC-REGISTRY" class="cite xref">WEBCODECS-CODEC-REGISTRY</a>]</span>.<a href="#section-3.1.2-2.3.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.1.2-2.4">
-              <p id="section-3.1.2-2.4.1">width, height: As defined in section 7.8 of <span>[<a href="#WEBCODECS-CODEC-REGISTRY" class="cite xref">WEBCODECS-CODEC-REGISTRY</a>]</span>.<a href="#section-3.1.2-2.4.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.1.2-2.5">
-              <p id="section-3.1.2-2.5.1">displayWidth, displayheight: As defined in section 7.7 of <span>[<a href="#WEBCODECS-CODEC-REGISTRY" class="cite xref">WEBCODECS-CODEC-REGISTRY</a>]</span>.<a href="#section-3.1.2-2.5.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
-<div id="optional-extensions-for-audio">
-<section id="section-3.1.3">
-          <h4 id="name-optional-extensions-for-aud">
-<a href="#section-3.1.3" class="section-number selfRef">3.1.3. </a><a href="#name-optional-extensions-for-aud" class="section-name selfRef">Optional Extensions for Audio</a>
-          </h4>
-<p id="section-3.1.3-1">The LOC Streaming Format allows the following optional extensions for audio media.<a href="#section-3.1.3-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3.1.3-2.1">
-              <p id="section-3.1.3-2.1.1">renderGroup: Identifies a group of time-aligned tracks which should be rendered simultaneously.<a href="#section-3.1.3-2.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.1.3-2.2">
-              <p id="section-3.1.3-2.2.1">selectionParams: Selection parameters for media quality, fidelity, etc.; see next section.<a href="#section-3.1.3-2.2.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
-<div id="audioprofile">
-<section id="section-3.1.4">
-          <h4 id="name-selection-parameters-for-au">
-<a href="#section-3.1.4" class="section-number selfRef">3.1.4. </a><a href="#name-selection-parameters-for-au" class="section-name selfRef">Selection Parameters for Audio</a>
-          </h4>
-<p id="section-3.1.4-1">Each audio track can have the following associated Selection Parameters.<a href="#section-3.1.4-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3.1.4-2.1">
-              <p id="section-3.1.4-2.1.1">codec: Codec information as defined by the codec registrations listed in <span>[<a href="#WEBCODECS-CODEC-REGISTRY" class="cite xref">WEBCODECS-CODEC-REGISTRY</a>]</span>.<a href="#section-3.1.4-2.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.1.4-2.2">
-              <p id="section-3.1.4-2.2.1">bitrate: As defined in section 7.7 and 7.8 of <span>[<a href="#WEBCODECS-CODEC-REGISTRY" class="cite xref">WEBCODECS-CODEC-REGISTRY</a>]</span>.<a href="#section-3.1.4-2.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.1.4-2.3">
-              <p id="section-3.1.4-2.3.1">samplerate: As defined in section 7.7 of <span>[<a href="#WEBCODECS-CODEC-REGISTRY" class="cite xref">WEBCODECS-CODEC-REGISTRY</a>]</span>.<a href="#section-3.1.4-2.3.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.1.4-2.4">
-              <p id="section-3.1.4-2.4.1">chanelConfig: As defined in section 7.7 of <span>[<a href="#WEBCODECS-CODEC-REGISTRY" class="cite xref">WEBCODECS-CODEC-REGISTRY</a>]</span>.<a href="#section-3.1.4-2.4.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.1.4-2.5">
-              <p id="section-3.1.4-2.5.1">lang: The primary language of the track, using standard tags from <span>[<a href="#RFC5646" class="cite xref">RFC5646</a>]</span>.<a href="#section-3.1.4-2.5.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
-</section>
-</div>
-<div id="catalog-examples">
-<section id="section-3.2">
-        <h3 id="name-catalog-examples">
-<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-catalog-examples" class="section-name selfRef">Catalog Examples</a>
-        </h3>
-<p id="section-3.2-1">See section 3.4 of the MOQ Common Catalog <span>[<a href="#MoQCatalog" class="cite xref">MoQCatalog</a>]</span>.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-</section>
-</div>
-<div id="payload-encryption">
-<section id="section-4">
       <h2 id="name-payload-encryption">
-<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-payload-encryption" class="section-name selfRef">Payload Encryption</a>
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-payload-encryption" class="section-name selfRef">Payload Encryption</a>
       </h2>
-<p id="section-4-1">When end to end encryption is supported, the encoded payload is encrypted
-with symmetric keys derived from key establishment mechanisms, such as <span>[<a href="#MOQ-MLS" class="cite xref">MOQ-MLS</a>]</span>, and the payload itself is protected using mechanisms defined in <span>[<a href="#SecureObjects" class="cite xref">SecureObjects</a>]</span>.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-3-1">When end to end encryption is supported, the encoded payload is encrypted
+with symmetric keys derived from key establishment mechanisms, such as <span>[<a href="#MOQ-MLS" class="cite xref">MOQ-MLS</a>]</span>,
+and the payload itself is protected using mechanisms defined in <span>[<a href="#SecureObjects" class="cite xref">SecureObjects</a>]</span>.<a href="#section-3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="examples">
-<section id="section-5">
+<section id="section-4">
       <h2 id="name-examples">
-<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
       </h2>
-<p id="section-5-1">This section provides examples with details for building audio and video applications
-using MOQ and LOC; more specifically, it provides information on:<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-4-1">This section provides examples with details for building audio and video applications
+using MOQ and LOC; more specifically, it provides information on:<a href="#section-4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5-2.1">
-          <p id="section-5-2.1.1">Using a catalog to describe track information,<a href="#section-5-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-4-2.1">
+          <p id="section-4-2.1.1">Using a WARP catalog <span>[<a href="#MoQCatalog" class="cite xref">MoQCatalog</a>]</span> to describe track information,<a href="#section-4-2.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-5-2.2">
-          <p id="section-5-2.2.1">Packaging media into LOC streaming format, and<a href="#section-5-2.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-4-2.2">
+          <p id="section-4-2.2.1">Packaging media into LOC streaming format, and<a href="#section-4-2.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-5-2.3">
-          <p id="section-5-2.3.1">Mapping application media objects to the MOQT object model and transport.<a href="#section-5-2.3.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-4-2.3">
+          <p id="section-4-2.3.1">Mapping application media objects to the MOQT object model and transport.<a href="#section-4-2.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-5-3">The figure below shows the conceptual model for mapping media application data
-to the MOQT object model and underlying QUIC transport.<a href="#section-5-3" class="pilcrow">¶</a></p>
-<div class="alignLeft art-ascii-art art-text artwork" id="section-5-4">
+<p id="section-4-3">The figure below shows the conceptual model for mapping media application data
+to the MOQT object model and underlying QUIC transport.<a href="#section-4-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-ascii-art art-text artwork" id="section-4-4">
 <pre>
 +------------------------------+
 |     Media Application        |
@@ -1777,114 +1632,114 @@ to the MOQT object model and underlying QUIC transport.<a href="#section-5-3" cl
 |        Streams, Datagrams    |
 +------------------------------+
 
-</pre><a href="#section-5-4" class="pilcrow">¶</a>
+</pre><a href="#section-4-4" class="pilcrow">¶</a>
 </div>
 <div id="app-audio">
-<section id="section-5.1">
+<section id="section-4.1">
         <h3 id="name-application-with-one-audio-">
-<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-application-with-one-audio-" class="section-name selfRef">Application with one audio track</a>
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-application-with-one-audio-" class="section-name selfRef">Application with one audio track</a>
         </h3>
-<p id="section-5.1-1">An example is shown below for an Opus mono channel audio track at 48Khz.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
-<div class="lang-psuedocode sourcecode" id="section-5.1-2">
+<p id="section-4.1-1">An example is shown below for an Opus mono channel audio track at 48Khz.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<div class="lang-psuedocode sourcecode" id="section-4.1-2">
 <pre>
 codec: "opus"
 bitrate: 24000
 samplerate: 480000
 channelConfig: "mono"
 lang: "en"
-</pre><a href="#section-5.1-2" class="pilcrow">¶</a>
+</pre><a href="#section-4.1-2" class="pilcrow">¶</a>
 </div>
-<p id="section-5.1-3">When ready for publishing, each encoded audio chunk, say 10ms, represents a
+<p id="section-4.1-3">When ready for publishing, each encoded audio chunk, say 10ms, represents a
 MOQT Object. In this setup, there is one <code>MOQT Object</code>
 per <code>MOQT Group</code>, where the <code>GroupID</code> in the object header is
 increment by one for each encoded audio chunk and the <code>ObjectID</code>
-is defaulted to value 0.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
-<p id="section-5.1-4">These objects can be sent as QUIC streams or datagrams. When mapped to
+is defaulted to value 0.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+<p id="section-4.1-4">These objects can be sent as QUIC streams or datagrams. When mapped to
 QUIC datagrams, each object must fit entirely within a QUIC datagram, and
 when mapped to QUIC Streams, each such unitary group is sent over
 an individual unidirectional QUIC stream since there is just one <code>SubGroup</code> per
-each <code>MOQT Group</code>.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
+each <code>MOQT Group</code>.<a href="#section-4.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="app-1-video">
-<section id="section-5.2">
+<section id="section-4.2">
         <h3 id="name-application-with-one-single">
-<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-application-with-one-single" class="section-name selfRef">Application with one single quality video track</a>
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-application-with-one-single" class="section-name selfRef">Application with one single quality video track</a>
         </h3>
-<p id="section-5.2-1">An example is shown below for an H.264 video track with 1280x720p resolution
-and 30 fps frame rate at 1 Mbps bitrate.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
-<div class="lang-psuedocode sourcecode" id="section-5.2-2">
+<p id="section-4.2-1">An example is shown below for an H.264 video track with 1280x720p resolution
+and 30 fps frame rate at 1 Mbps bitrate.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<div class="lang-psuedocode sourcecode" id="section-4.2-2">
 <pre>
 codec: "avc3.42E01E"
 bitrate: 1000000
 framerate: 30
 width: 1280
 height: 720
-</pre><a href="#section-5.2-2" class="pilcrow">¶</a>
+</pre><a href="#section-4.2-2" class="pilcrow">¶</a>
 </div>
-<p id="section-5.2-3">When ready for publishing, each encoded video chunk is considered as input
+<p id="section-4.2-3">When ready for publishing, each encoded video chunk is considered as input
 to MOQT Object payload. If encrypted, the output of encryption will serve as
 the object's payload. The <code>GroupID</code> is incremented by 1 at IDR Frame boundaries.
 The <code>ObjectID</code> is increment by 1 for each encoded video frame, starting at 0
 and resetting to 0 at the start of a new group. The first encoded video frame,
 MOQT Object with <code>ObjectID</code> 0, shall be the Independent (IDR) frame and
 the rest of the encoded video frames corresponds to dependent (delta) frames,
-organized in the decode order.<a href="#section-5.2-3" class="pilcrow">¶</a></p>
-<p id="section-5.2-4">When mapping to QUIC for sending, one unidirectional QUIC stream is setup to
-deliver all the encoded video chunks within a MOQT group.<a href="#section-5.2-4" class="pilcrow">¶</a></p>
-<p id="section-5.2-5">When decoding at the 'End Consumer', the objects from each of the QUIC
+organized in the decode order.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
+<p id="section-4.2-4">When mapping to QUIC for sending, one unidirectional QUIC stream is setup to
+deliver all the encoded video chunks within a MOQT group.<a href="#section-4.2-4" class="pilcrow">¶</a></p>
+<p id="section-4.2-5">When decoding at the 'End Consumer', the objects from each of the QUIC
 streams are fed in the GroupID then ObjectID order to the decoder for
-the track.<a href="#section-5.2-5" class="pilcrow">¶</a></p>
+the track.<a href="#section-4.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="app-2-temp-video">
-<section id="section-5.3">
+<section id="section-4.3">
         <h3 id="name-application-with-single-vid">
-<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-application-with-single-vid" class="section-name selfRef">Application with single video track with temporal layers</a>
+<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-application-with-single-vid" class="section-name selfRef">Application with single video track with temporal layers</a>
         </h3>
-<p id="section-5.3-1">An example is shown below for an H.264 video track with 1280x720p resolution and
-2 temporal layers at 30 fps and 60 fps frame rate.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
-<div class="lang-psuedocode sourcecode" id="section-5.3-2">
+<p id="section-4.3-1">An example is shown below for an H.264 video track with 1280x720p resolution and
+2 temporal layers at 30 fps and 60 fps frame rate.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+<div class="lang-psuedocode sourcecode" id="section-4.3-2">
 <pre>
 codec: "avc3.42E01F"
 bitrate: 1500000
 framerate: 60
 width: 1280
 height: 720
-</pre><a href="#section-5.3-2" class="pilcrow">¶</a>
+</pre><a href="#section-4.3-2" class="pilcrow">¶</a>
 </div>
-<p id="section-5.3-3">When ready for publishing, each encoded video chunk is considered as input
+<p id="section-4.3-3">When ready for publishing, each encoded video chunk is considered as input
 to MOQT Object payload. If encrypted, the output of encryption will serve as
 the object's payload. The <code>GroupID</code> is incremented by 1 at Independent (IDR)
 frame  boundaries. Each MOQT group shall contain 2 SubGroups corresponding
-to the 2 temporal layers as shown below:<a href="#section-5.3-3" class="pilcrow">¶</a></p>
-<div class="lang-psuedocode sourcecode" id="section-5.3-4">
+to the 2 temporal layers as shown below:<a href="#section-4.3-3" class="pilcrow">¶</a></p>
+<div class="lang-psuedocode sourcecode" id="section-4.3-4">
 <pre>
 Layer:0/30fps Subgroup: 0 ObjectID: even
 Layer:1/60fps Subgroup: 1 ObjectID: odd
-</pre><a href="#section-5.3-4" class="pilcrow">¶</a>
+</pre><a href="#section-4.3-4" class="pilcrow">¶</a>
 </div>
-<p id="section-5.3-5">Within the MOQT group, <code>ObjectID</code> is increment by 1 for each encoded video
+<p id="section-4.3-5">Within the MOQT group, <code>ObjectID</code> is increment by 1 for each encoded video
 frame, starting at 0 and resetting to 0 at the start of a new group. The
 first encoded video frame, MOQT Object with <code>ObjectID</code> 0, shall be the
 Indepedent (IDR) frame and the rest of the encoded video frames corresponds to
 dependent (delta) frames, organized in the decode order. When mapping to
 QUIC for sending, one unidirectional QUIC stream is used per SubGroup,
-thus resulting in 2 QUIC streams per MOQT group.<a href="#section-5.3-5" class="pilcrow">¶</a></p>
-<p id="section-5.3-6">When decoding at the 'End Consumer' for a given MOQT group, the objects
+thus resulting in 2 QUIC streams per MOQT group.<a href="#section-4.3-5" class="pilcrow">¶</a></p>
+<p id="section-4.3-6">When decoding at the 'End Consumer' for a given MOQT group, the objects
 must be fed in the GroupID then ObjectID order. This implies that the consumer
 media application needs to order objects across the SubGroup QUIC
-streams.<a href="#section-5.3-6" class="pilcrow">¶</a></p>
+streams.<a href="#section-4.3-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="application-with-mutiple-dependent-video-tracks">
-<section id="section-5.4">
+<section id="section-4.4">
         <h3 id="name-application-with-mutiple-de">
-<a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-application-with-mutiple-de" class="section-name selfRef">Application with mutiple dependent video tracks</a>
+<a href="#section-4.4" class="section-number selfRef">4.4. </a><a href="#name-application-with-mutiple-de" class="section-name selfRef">Application with mutiple dependent video tracks</a>
         </h3>
-<p id="section-5.4-1">An example is shown below for an H.264 video track with 2 spatial qualities
-at 360p and 720p each at 30 fps<a href="#section-5.4-1" class="pilcrow">¶</a></p>
-<div class="lang-psuedocode sourcecode" id="section-5.4-2">
+<p id="section-4.4-1">An example is shown below for an H.264 video track with 2 spatial qualities
+at 360p and 720p each at 30 fps<a href="#section-4.4-1" class="pilcrow">¶</a></p>
+<div class="lang-psuedocode sourcecode" id="section-4.4-2">
 <pre>
 Video Track 1
 codec: "avc3.42E01E"
@@ -1900,35 +1755,35 @@ framerate: 30
 width: 1280
 height: 720
 
-</pre><a href="#section-5.4-2" class="pilcrow">¶</a>
+</pre><a href="#section-4.4-2" class="pilcrow">¶</a>
 </div>
-<p id="section-5.4-3">When ready for publishing, the mapping to the MOQT object model and
+<p id="section-4.4-3">When ready for publishing, the mapping to the MOQT object model and
 to underlying QUIC, follows the same procedures as described in
-<a href="#app-1-video" class="auto internal xref">Section 5.2</a> for each video track.<a href="#section-5.4-3" class="pilcrow">¶</a></p>
-<p id="section-5.4-4">When decoding at the 'End Consumer' for a given MOQT group, the objects
+<a href="#app-1-video" class="auto internal xref">Section 4.2</a> for each video track.<a href="#section-4.4-3" class="pilcrow">¶</a></p>
+<p id="section-4.4-4">When decoding at the 'End Consumer' for a given MOQT group, the objects
 must be fed in the GroupID then ObjectID order in the ascending quality
-track order.<a href="#section-5.4-4" class="pilcrow">¶</a></p>
-<p id="section-5.4-5">For the example in the section, this would imply following
-pattern when decoding group 5.<a href="#section-5.4-5" class="pilcrow">¶</a></p>
-<div class="lang-pseudocode sourcecode" id="section-5.4-6">
+track order.<a href="#section-4.4-4" class="pilcrow">¶</a></p>
+<p id="section-4.4-5">For the example in the section, this would imply following
+pattern when decoding group 5.<a href="#section-4.4-5" class="pilcrow">¶</a></p>
+<div class="lang-pseudocode sourcecode" id="section-4.4-6">
 <pre>
 Track 1 Group 5 Object 0
 Track 2 Group 5 Object 0
 Track 1 Group 5 Object 1
 Track 2 Group 5 Object 1
 ....
-</pre><a href="#section-5.4-6" class="pilcrow">¶</a>
+</pre><a href="#section-4.4-6" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
 <div id="application-with-mutiple-dependent-video-tracks-with-dyadic-framerate-levels">
-<section id="section-5.5">
+<section id="section-4.5">
         <h3 id="name-application-with-mutiple-dep">
-<a href="#section-5.5" class="section-number selfRef">5.5. </a><a href="#name-application-with-mutiple-dep" class="section-name selfRef">Application with mutiple dependent video tracks with dyadic framerate levels.</a>
+<a href="#section-4.5" class="section-number selfRef">4.5. </a><a href="#name-application-with-mutiple-dep" class="section-name selfRef">Application with mutiple dependent video tracks with dyadic framerate levels.</a>
         </h3>
-<p id="section-5.5-1">An example is shown below for an H.264 video track with 2 spatial qualities
-at 360p and 720p, however, the framerate between tracks vary dyadically.<a href="#section-5.5-1" class="pilcrow">¶</a></p>
-<div class="lang-pseudocode sourcecode" id="section-5.5-2">
+<p id="section-4.5-1">An example is shown below for an H.264 video track with 2 spatial qualities
+at 360p and 720p, however, the framerate between tracks vary dyadically.<a href="#section-4.5-1" class="pilcrow">¶</a></p>
+<div class="lang-pseudocode sourcecode" id="section-4.5-2">
 <pre>
 Video Track 1
 codec: "avc3.42E01E"
@@ -1944,35 +1799,35 @@ framerate: 60
 width: 1280
 height: 720
 
-</pre><a href="#section-5.5-2" class="pilcrow">¶</a>
+</pre><a href="#section-4.5-2" class="pilcrow">¶</a>
 </div>
-<p id="section-5.5-3">When ready for publishing, the mapping to the MOQT object model and
+<p id="section-4.5-3">When ready for publishing, the mapping to the MOQT object model and
 to underlying QUIC, follows the same procedures as described in
-<a href="#app-1-video" class="auto internal xref">Section 5.2</a> for each video track.<a href="#section-5.5-3" class="pilcrow">¶</a></p>
-<p id="section-5.5-4">When decoding at the 'End Consumer' for a given MOQT group, the objects
+<a href="#app-1-video" class="auto internal xref">Section 4.2</a> for each video track.<a href="#section-4.5-3" class="pilcrow">¶</a></p>
+<p id="section-4.5-4">When decoding at the 'End Consumer' for a given MOQT group, the objects
 from across the tracks must be fed in the timestamp order to the decoder,
-if no frame reordering is present in the encoding.<a href="#section-5.5-4" class="pilcrow">¶</a></p>
-<p id="section-5.5-5">If the encoding uses frame reordering, or if timestamp cannot be obtained, the
-object to choose next shall follow the below formula.<a href="#section-5.5-5" class="pilcrow">¶</a></p>
-<div class="lang-pseudocode sourcecode" id="section-5.5-6">
+if no frame reordering is present in the encoding.<a href="#section-4.5-4" class="pilcrow">¶</a></p>
+<p id="section-4.5-5">If the encoding uses frame reordering, or if timestamp cannot be obtained, the
+object to choose next shall follow the below formula.<a href="#section-4.5-5" class="pilcrow">¶</a></p>
+<div class="lang-pseudocode sourcecode" id="section-4.5-6">
 <pre>
 Object Decode Order = ObjectID * multiplier + offset
 
 multiplier = 2^(maxlayer-max(0,layer-1))
 offset = 2^(maxlayer-layer) MOD multiplier
 
-</pre><a href="#section-5.5-6" class="pilcrow">¶</a>
+</pre><a href="#section-4.5-6" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
 <div id="app-2-video">
-<section id="section-5.6">
+<section id="section-4.6">
         <h3 id="name-application-with-multiple-s">
-<a href="#section-5.6" class="section-number selfRef">5.6. </a><a href="#name-application-with-multiple-s" class="section-name selfRef">Application with multiple simulcast qualities video tracks</a>
+<a href="#section-4.6" class="section-number selfRef">4.6. </a><a href="#name-application-with-multiple-s" class="section-name selfRef">Application with multiple simulcast qualities video tracks</a>
         </h3>
-<p id="section-5.6-1">An example is shown below for an H.264 video track with 2 simulcast
-spatial qualities at 360p and 720p each at 30 fps.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
-<div class="lang-psuedocode sourcecode" id="section-5.6-2">
+<p id="section-4.6-1">An example is shown below for an H.264 video track with 2 simulcast
+spatial qualities at 360p and 720p each at 30 fps.<a href="#section-4.6-1" class="pilcrow">¶</a></p>
+<div class="lang-psuedocode sourcecode" id="section-4.6-2">
 <pre>
 Video Track 1
 codec: "avc3.42E01E"
@@ -1988,24 +1843,24 @@ framerate: 30
 width: 1280
 height: 720
 
-</pre><a href="#section-5.6-2" class="pilcrow">¶</a>
+</pre><a href="#section-4.6-2" class="pilcrow">¶</a>
 </div>
-<p id="section-5.6-3">When ready for publishing, the mapping to the MOQT object model and
+<p id="section-4.6-3">When ready for publishing, the mapping to the MOQT object model and
 to underlying QUIC, follows the same procedures as described in
-<a href="#app-1-video" class="auto internal xref">Section 5.2</a> for each video track.<a href="#section-5.6-3" class="pilcrow">¶</a></p>
-<p id="section-5.6-4">When decoding at the 'End Consumer', the objects from the QUIC stream
+<a href="#app-1-video" class="auto internal xref">Section 4.2</a> for each video track.<a href="#section-4.6-3" class="pilcrow">¶</a></p>
+<p id="section-4.6-4">When decoding at the 'End Consumer', the objects from the QUIC stream
 are fed in the GroupID then ObjectID order to the decoders setup for the
-corresponding video tracks.<a href="#section-5.6-4" class="pilcrow">¶</a></p>
+corresponding video tracks.<a href="#section-4.6-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="security-and-privacy-considerations">
-<section id="section-6">
+<section id="section-5">
       <h2 id="name-security-and-privacy-consid">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-security-and-privacy-consid" class="section-name selfRef">Security and Privacy Considerations</a>
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-security-and-privacy-consid" class="section-name selfRef">Security and Privacy Considerations</a>
       </h2>
-<p id="section-6-1">The metadata in LOC Header Extensions is visible to relays, since the
+<p id="section-5-1">The metadata in LOC Header Extensions is visible to relays, since the
 MOQ Object Header Extensions are often not encrypted end-to-end
 (from original publisher to end subscribers) in common schemes.
 In some cases, this may be an intentional design intent for proper relay
@@ -2013,39 +1868,39 @@ operation. In other cases, this may be unintentional or undesirable leaking
 of the metadata to relays. Each metadata that is defined should consider
 the security and privacy aspects of granting relays visibility to the metadata.
 End-to-end encyption schemes should support end-to-end encryption of sensitive
-metadata.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">The metadata defined and registered in this specification
+metadata.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-2">The metadata defined and registered in this specification
 (Capture Timestamp, Video Frame Marking, and Audio Level) may be sensitive
 metadata that should be encrypted end-to-end. They are used by media switches,
 which are not merely relays, and likely have access to some media keys.
 This may require end-to-end encryption schemes with multiple different
-security key contexts for payload versus metadata.<a href="#section-6-2" class="pilcrow">¶</a></p>
+security key contexts for payload versus metadata.<a href="#section-5-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana">
-<section id="section-7">
+<section id="section-6">
       <h2 id="name-iana-considerations">
-<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-7-1">The IANA registry for MOQ Object Header Extensions is populated with
-the entries specified in section <a href="#headers" class="auto internal xref">Section 2.3</a>, referencing this specification.<a href="#section-7-1" class="pilcrow">¶</a></p>
-<p id="section-7-2">This document creates a new entry in the "MoQ Streaming Format" Registry (see <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Sect 8). The type value is 0x002, the name is "LOC Streaming Format" and the RFC is XXX.<a href="#section-7-2" class="pilcrow">¶</a></p>
+<p id="section-6-1">The IANA registry for MOQ Object Header Extensions is populated with
+the entries specified in section <a href="#headers" class="auto internal xref">Section 2.3</a>, referencing this specification.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">This document creates a new entry in the "MoQ Streaming Format" Registry (see <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Sect 8). The type value is 0x002, the name is "LOC Streaming Format" and the RFC is XXX.<a href="#section-6-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-combined-references">
-<section id="section-8">
+<section id="section-7">
       <h2 id="name-references">
-<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-references" class="section-name selfRef">References</a>
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-references" class="section-name selfRef">References</a>
       </h2>
 <div id="sec-normative-references">
-<section id="section-8.1">
+<section id="section-7.1">
         <h3 id="name-normative-references">
-<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
 <dt id="MoQTransport">[MoQTransport]</dt>
         <dd>
-<span class="refAuthor">Curley, L.</span>, <span class="refAuthor">Pugin, K.</span>, <span class="refAuthor">Nandakumar, S.</span>, <span class="refAuthor">Vasiliev, V.</span>, and <span class="refAuthor">I. Swett</span>, <span class="refTitle">"Media over QUIC Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-moq-transport-10</span>, <time datetime="2025-03-03" class="refDate">3 March 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-moq-transport-10">https://datatracker.ietf.org/doc/html/draft-ietf-moq-transport-10</a>&gt;</span>. </dd>
+<span class="refAuthor">Nandakumar, S.</span>, <span class="refAuthor">Vasiliev, V.</span>, <span class="refAuthor">Swett, I.</span>, and <span class="refAuthor">A. Frindell</span>, <span class="refTitle">"Media over QUIC Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-moq-transport-12</span>, <time datetime="2025-06-23" class="refDate">23 June 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-moq-transport-12">https://datatracker.ietf.org/doc/html/draft-ietf-moq-transport-12</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="WebCodecs">[WebCodecs]</dt>
         <dd>
@@ -2063,30 +1918,26 @@ the entries specified in section <a href="#headers" class="auto internal xref">S
         <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC6464">[RFC6464]</dt>
+<dt id="RFC9626">[RFC9626]</dt>
         <dd>
-<span class="refAuthor">Lennox, J., Ed.</span>, <span class="refAuthor">Ivov, E.</span>, and <span class="refAuthor">E. Marocco</span>, <span class="refTitle">"A Real-time Transport Protocol (RTP) Header Extension for Client-to-Mixer Audio Level Indication"</span>, <span class="seriesInfo">RFC 6464</span>, <span class="seriesInfo">DOI 10.17487/RFC6464</span>, <time datetime="2011-12" class="refDate">December 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6464">https://www.rfc-editor.org/rfc/rfc6464</a>&gt;</span>. </dd>
+<span class="refAuthor">Zanaty, M.</span>, <span class="refAuthor">Berger, E.</span>, and <span class="refAuthor">S. Nandakumar</span>, <span class="refTitle">"Video Frame Marking RTP Header Extension"</span>, <span class="seriesInfo">RFC 9626</span>, <span class="seriesInfo">DOI 10.17487/RFC9626</span>, <time datetime="2025-03" class="refDate">March 2025</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9626">https://www.rfc-editor.org/rfc/rfc9626</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC5646">[RFC5646]</dt>
+<dt id="RFC6464">[RFC6464]</dt>
       <dd>
-<span class="refAuthor">Phillips, A., Ed.</span> and <span class="refAuthor">M. Davis, Ed.</span>, <span class="refTitle">"Tags for Identifying Languages"</span>, <span class="seriesInfo">BCP 47</span>, <span class="seriesInfo">RFC 5646</span>, <span class="seriesInfo">DOI 10.17487/RFC5646</span>, <time datetime="2009-09" class="refDate">September 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5646">https://www.rfc-editor.org/rfc/rfc5646</a>&gt;</span>. </dd>
+<span class="refAuthor">Lennox, J., Ed.</span>, <span class="refAuthor">Ivov, E.</span>, and <span class="refAuthor">E. Marocco</span>, <span class="refTitle">"A Real-time Transport Protocol (RTP) Header Extension for Client-to-Mixer Audio Level Indication"</span>, <span class="seriesInfo">RFC 6464</span>, <span class="seriesInfo">DOI 10.17487/RFC6464</span>, <time datetime="2011-12" class="refDate">December 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6464">https://www.rfc-editor.org/rfc/rfc6464</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
 </div>
 <div id="sec-informative-references">
-<section id="section-8.2">
+<section id="section-7.2">
         <h3 id="name-informative-references">
-<a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
 <dt id="MoQCatalog">[MoQCatalog]</dt>
         <dd>
-<span class="refAuthor">Nandakumar, S.</span>, <span class="refAuthor">Law, W.</span>, and <span class="refAuthor">M. Zanaty</span>, <span class="refTitle">"Common Catalog Format for moq-transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-wilaw-moq-catalogformat-02</span>, <time datetime="2023-11-30" class="refDate">30 November 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-wilaw-moq-catalogformat-02">https://datatracker.ietf.org/doc/html/draft-wilaw-moq-catalogformat-02</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="Framemarking">[Framemarking]</dt>
-        <dd>
-<span class="refAuthor">Zanaty, M.</span>, <span class="refAuthor">Berger, E.</span>, and <span class="refAuthor">S. Nandakumar</span>, <span class="refTitle">"Video Frame Marking RTP Header Extension"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-avtext-framemarking-16</span>, <time datetime="2024-03-04" class="refDate">4 March 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-avtext-framemarking-16">https://datatracker.ietf.org/doc/html/draft-ietf-avtext-framemarking-16</a>&gt;</span>. </dd>
+<span class="refAuthor">Law, W.</span>, <span class="refAuthor">Curley, L.</span>, <span class="refAuthor">Vasiliev, V.</span>, <span class="refAuthor">Nandakumar, S.</span>, and <span class="refAuthor">K. Pugin</span>, <span class="refTitle">"WARP Streaming Format"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-moq-warp-00</span>, <time datetime="2025-03-16" class="refDate">16 March 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-moq-warp-00">https://datatracker.ietf.org/doc/html/draft-ietf-moq-warp-00</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="SecureObjects">[SecureObjects]</dt>
         <dd>
@@ -2094,7 +1945,7 @@ the entries specified in section <a href="#headers" class="auto internal xref">S
 <dd class="break"></dd>
 <dt id="MOQ-MLS">[MOQ-MLS]</dt>
       <dd>
-<span class="refAuthor">Jennings, C. F.</span>, <span class="refAuthor">Nandakumar, S.</span>, and <span class="refAuthor">R. Barnes</span>, <span class="refTitle">"Secure Group Key Agreement with MLS over MoQ"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-jennings-moq-e2ee-mls-02</span>, <time datetime="2025-03-03" class="refDate">3 March 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-jennings-moq-e2ee-mls-02">https://datatracker.ietf.org/doc/html/draft-jennings-moq-e2ee-mls-02</a>&gt;</span>. </dd>
+<span class="refAuthor">Jennings, C. F.</span>, <span class="refAuthor">Nandakumar, S.</span>, and <span class="refAuthor">R. Barnes</span>, <span class="refTitle">"End-to-end Security for Media over QUIC"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-jennings-moq-e2ee-mls-03</span>, <time datetime="2025-06-30" class="refDate">30 June 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-jennings-moq-e2ee-mls-03">https://datatracker.ietf.org/doc/html/draft-jennings-moq-e2ee-mls-03</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>

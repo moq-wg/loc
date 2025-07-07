@@ -5,9 +5,9 @@
 Media Over QUIC                                                M. Zanaty
 Internet-Draft                                             S. Nandakumar
 Intended status: Standards Track                                   Cisco
-Expires: 2 October 2025                                      P. Thatcher
+Expires: 8 January 2026                                      P. Thatcher
                                                                Microsoft
-                                                           31 March 2025
+                                                             7 July 2025
 
 
                       Low Overhead Media Container
@@ -18,10 +18,10 @@ Abstract
    This specification describes a Low Overhead Media Container (LOC)
    format for encoded and encrypted audio and video media data to be
    used primarily for interactive Media over QUIC Transport (MOQT).  It
-   further defines the LOC Streaming Format for the MOQ Common Catalog
-   format for publishers to annouce and describe their LOC tracks and
-   for subscribers to consume them.  Examples are also provided for
-   building media applications using LOC and MOQT.
+   may be used in the WARP streaming specification, which defines a
+   catalog format for publishers to annouce and describe their LOC
+   tracks and for subscribers to consume them.  Examples are also
+   provided for building media applications using LOC and MOQT.
 
 About This Document
 
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 October 2025.
+   This Internet-Draft will expire on 8 January 2026.
 
 Copyright Notice
 
@@ -87,36 +87,27 @@ Table of Contents
        2.3.1.  Common Header Data
        2.3.2.  Video Header Data
        2.3.3.  Audio Header Data
-   3.  Catalog
-     3.1.  Catalog Fields
-       3.1.1.  Optional Extensions for Video
-       3.1.2.  Selection Parameters for Video
-       3.1.3.  Optional Extensions for Audio
-       3.1.4.  Selection Parameters for Audio
-     3.2.  Catalog Examples
-   4.  Payload Encryption
-   5.  Examples
-     5.1.  Application with one audio track
-     5.2.  Application with one single quality video track
-     5.3.  Application with single video track with temporal layers
-     5.4.  Application with mutiple dependent video tracks
-     5.5.  Application with mutiple dependent video tracks with dyadic
+   3.  Payload Encryption
+   4.  Examples
+     4.1.  Application with one audio track
+     4.2.  Application with one single quality video track
+     4.3.  Application with single video track with temporal layers
+     4.4.  Application with mutiple dependent video tracks
+     4.5.  Application with mutiple dependent video tracks with dyadic
            framerate levels.
-     5.6.  Application with multiple simulcast qualities video tracks
-   6.  Security and Privacy Considerations
-   7.  IANA Considerations
-   8.  References
-     8.1.  Normative References
-     8.2.  Informative References
+     4.6.  Application with multiple simulcast qualities video tracks
+   5.  Security and Privacy Considerations
+   6.  IANA Considerations
+   7.  References
+     7.1.  Normative References
+     7.2.  Informative References
    Appendix A.  Acknowledgements
    Authors' Addresses
 
 1.  Introduction
 
-   This specification describes a low-overhead media container format
-   for encoded and encrypted audio and video media data, as well as a
-   MOQ Common Catalog streaming format called LOC to describe such
-   tracks.
+   This specification describes a low-overhead media container (LOC)
+   format for encoded and encrypted audio and video media data.
 
    "Low-overhead" refers to minimal extra encapsulation as well as
    minimal application overhead when interfacing with WebCodecs
@@ -155,8 +146,10 @@ Table of Contents
    *  Section 2.3 defines the metadata associated with audio and video
       payloads.
 
-   *  Section 3 describes the LOC Streaming Format bindings to the MoQ
-      Common Catalog format including examples.
+   *  Section 3 defines the usage of end-to-end encrypted LOC payloads.
+
+   *  Section 4 provides examples with details for building audio and
+      video applications using LOC over MOQ.
 
 1.1.  Requirements Notation and Conventions
 
@@ -331,8 +324,8 @@ Table of Contents
 
    *  Description: Flags for video frames which are independent,
       discardable, or base layer sync points, as well as temporal and
-      spatial layer identification, as defined in [Framemarking],
-      encoded in the least significant bits of a varint.
+      spatial layer identification, as defined in [RFC9626], encoded in
+      the least significant bits of a varint.
 
    *  ID: 4 (IANA, please assign from the MOQ Header Extensions
       Registry)
@@ -359,140 +352,20 @@ Table of Contents
 
    *  Value: Varies
 
-3.  Catalog
-
-   A catalog track provides information about tracks from a given
-   publisher.  A catalog is used by subscribers for consuming tracks and
-   by publishers to advertise and describe the tracks.  The content of a
-   catalog is opaque to the relays and may be end to end encrypted.  A
-   catalog describes the details of tracks such as Track IDs and
-   corresponding media configuration details, for example, audio/video
-   codec details.
-
-   The LOC Streaming Format uses the MoQ Common Catalog Format
-   [MoQCatalog] to describe the content being produced by a publisher.
-
-   Per Sect 5.1 of [MoQCatalog], this document registers an entry in the
-   "MoQ Streaming Format Type" table, with the type value 2, the name
-   "LOC Streaming Format", and the RFC XXX.
-
-   Every LOC catalog track MUST declare a streaming format type (See
-   Sect 3.2.1 of [MoQCatalog]) value of 2.
-
-   Every LOC catalog track MUST declare a streaming format version (See
-   Sect 3.2.1 of [MoQCatalog]) value of 1, which is the version
-   described in this document.
-
-   Every LOC catalog track MUST declare a packaging type (See Sect 3.2.9
-   of [MoQCatalog]) of "loc".
-
-   The catalog track MUST have a track name of "catalog".  A catalog
-   object MAY be independent of other catalog objects or it MAY
-   represent a delta update of a prior catalog object.  The first
-   catalog object published within a new group MUST be independent.  A
-   catalog object SHOULD only be published only when the availability of
-   tracks changes.
-
-   Each catalog update MUST be mapped to a discreet moq-transport
-   object.
-
-3.1.  Catalog Fields
-
-   The MOQ Common Catalog defines the required base fields and optional
-   extensions.
-
-3.1.1.  Optional Extensions for Video
-
-   The LOC Streaming Format allows the following optional extensions for
-   video media.
-
-   *  temporalId: Identifies the temporal layer/sub-layer encoded,
-      starting with 0 for the base layer, and increasing with higher
-      temporal fidelity.
-
-   *  spatialId: Identifies the spatial and quality layer encoded,
-      starting with 0 for the base layer, and increasing with higher
-      fidelity.
-
-   *  depends: Identifies track dependencies for a given track, usually
-      for video media with scalable layers in separate tracks.
-
-   *  renderGroup: Identifies a group of time-aligned tracks which
-      should be rendered simultaneously.
-
-   *  selectionParams: Selection parameters for media quality, fidelity,
-      etc.; see next section.
-
-3.1.2.  Selection Parameters for Video
-
-   Each video track can have the following associated Selection
-   Parameters.
-
-   *  codec: Codec information (including profile, level, tier, etc.),
-      as defined by the codec registrations listed in
-      [WEBCODECS-CODEC-REGISTRY].
-
-   *  framerate: As defined in section 7.8 of
-      [WEBCODECS-CODEC-REGISTRY].
-
-   *  bitrate: As defined in section 7.7 and 7.8 of
-      [WEBCODECS-CODEC-REGISTRY].
-
-   *  width, height: As defined in section 7.8 of
-      [WEBCODECS-CODEC-REGISTRY].
-
-   *  displayWidth, displayheight: As defined in section 7.7 of
-      [WEBCODECS-CODEC-REGISTRY].
-
-3.1.3.  Optional Extensions for Audio
-
-   The LOC Streaming Format allows the following optional extensions for
-   audio media.
-
-   *  renderGroup: Identifies a group of time-aligned tracks which
-      should be rendered simultaneously.
-
-   *  selectionParams: Selection parameters for media quality, fidelity,
-      etc.; see next section.
-
-3.1.4.  Selection Parameters for Audio
-
-   Each audio track can have the following associated Selection
-   Parameters.
-
-   *  codec: Codec information as defined by the codec registrations
-      listed in [WEBCODECS-CODEC-REGISTRY].
-
-   *  bitrate: As defined in section 7.7 and 7.8 of
-      [WEBCODECS-CODEC-REGISTRY].
-
-   *  samplerate: As defined in section 7.7 of
-      [WEBCODECS-CODEC-REGISTRY].
-
-   *  chanelConfig: As defined in section 7.7 of
-      [WEBCODECS-CODEC-REGISTRY].
-
-   *  lang: The primary language of the track, using standard tags from
-      [RFC5646].
-
-3.2.  Catalog Examples
-
-   See section 3.4 of the MOQ Common Catalog [MoQCatalog].
-
-4.  Payload Encryption
+3.  Payload Encryption
 
    When end to end encryption is supported, the encoded payload is
    encrypted with symmetric keys derived from key establishment
    mechanisms, such as [MOQ-MLS], and the payload itself is protected
    using mechanisms defined in [SecureObjects].
 
-5.  Examples
+4.  Examples
 
    This section provides examples with details for building audio and
    video applications using MOQ and LOC; more specifically, it provides
    information on:
 
-   *  Using a catalog to describe track information,
+   *  Using a WARP catalog [MoQCatalog] to describe track information,
 
    *  Packaging media into LOC streaming format, and
 
@@ -520,7 +393,7 @@ Table of Contents
    |        Streams, Datagrams    |
    +------------------------------+
 
-5.1.  Application with one audio track
+4.1.  Application with one audio track
 
    An example is shown below for an Opus mono channel audio track at
    48Khz.
@@ -543,7 +416,7 @@ Table of Contents
    sent over an individual unidirectional QUIC stream since there is
    just one SubGroup per each MOQT Group.
 
-5.2.  Application with one single quality video track
+4.2.  Application with one single quality video track
 
    An example is shown below for an H.264 video track with 1280x720p
    resolution and 30 fps frame rate at 1 Mbps bitrate.
@@ -571,7 +444,7 @@ Table of Contents
    QUIC streams are fed in the GroupID then ObjectID order to the
    decoder for the track.
 
-5.3.  Application with single video track with temporal layers
+4.3.  Application with single video track with temporal layers
 
    An example is shown below for an H.264 video track with 1280x720p
    resolution and 2 temporal layers at 30 fps and 60 fps frame rate.
@@ -605,7 +478,7 @@ Table of Contents
    that the consumer media application needs to order objects across the
    SubGroup QUIC streams.
 
-5.4.  Application with mutiple dependent video tracks
+4.4.  Application with mutiple dependent video tracks
 
    An example is shown below for an H.264 video track with 2 spatial
    qualities at 360p and 720p each at 30 fps
@@ -626,7 +499,7 @@ Table of Contents
 
    When ready for publishing, the mapping to the MOQT object model and
    to underlying QUIC, follows the same procedures as described in
-   Section 5.2 for each video track.
+   Section 4.2 for each video track.
 
    When decoding at the 'End Consumer' for a given MOQT group, the
    objects must be fed in the GroupID then ObjectID order in the
@@ -641,7 +514,7 @@ Table of Contents
    Track 2 Group 5 Object 1
    ....
 
-5.5.  Application with mutiple dependent video tracks with dyadic
+4.5.  Application with mutiple dependent video tracks with dyadic
       framerate levels.
 
    An example is shown below for an H.264 video track with 2 spatial
@@ -664,7 +537,7 @@ Table of Contents
 
    When ready for publishing, the mapping to the MOQT object model and
    to underlying QUIC, follows the same procedures as described in
-   Section 5.2 for each video track.
+   Section 4.2 for each video track.
 
    When decoding at the 'End Consumer' for a given MOQT group, the
    objects from across the tracks must be fed in the timestamp order to
@@ -678,7 +551,7 @@ Table of Contents
    multiplier = 2^(maxlayer-max(0,layer-1))
    offset = 2^(maxlayer-layer) MOD multiplier
 
-5.6.  Application with multiple simulcast qualities video tracks
+4.6.  Application with multiple simulcast qualities video tracks
 
    An example is shown below for an H.264 video track with 2 simulcast
    spatial qualities at 360p and 720p each at 30 fps.
@@ -699,13 +572,13 @@ Table of Contents
 
    When ready for publishing, the mapping to the MOQT object model and
    to underlying QUIC, follows the same procedures as described in
-   Section 5.2 for each video track.
+   Section 4.2 for each video track.
 
    When decoding at the 'End Consumer', the objects from the QUIC stream
    are fed in the GroupID then ObjectID order to the decoders setup for
    the corresponding video tracks.
 
-6.  Security and Privacy Considerations
+5.  Security and Privacy Considerations
 
    The metadata in LOC Header Extensions is visible to relays, since the
    MOQ Object Header Extensions are often not encrypted end-to-end (from
@@ -724,7 +597,7 @@ Table of Contents
    media keys.  This may require end-to-end encryption schemes with
    multiple different security key contexts for payload versus metadata.
 
-7.  IANA Considerations
+6.  IANA Considerations
 
    The IANA registry for MOQ Object Header Extensions is populated with
    the entries specified in section Section 2.3, referencing this
@@ -734,16 +607,16 @@ Table of Contents
    Registry (see [MoQTransport] Sect 8).  The type value is 0x002, the
    name is "LOC Streaming Format" and the RFC is XXX.
 
-8.  References
+7.  References
 
-8.1.  Normative References
+7.1.  Normative References
 
    [MoQTransport]
-              Curley, L., Pugin, K., Nandakumar, S., Vasiliev, V., and
-              I. Swett, "Media over QUIC Transport", Work in Progress,
-              Internet-Draft, draft-ietf-moq-transport-10, 3 March 2025,
+              Nandakumar, S., Vasiliev, V., Swett, I., and A. Frindell,
+              "Media over QUIC Transport", Work in Progress, Internet-
+              Draft, draft-ietf-moq-transport-12, 23 June 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-moq-
-              transport-10>.
+              transport-12>.
 
    [WebCodecs]
               "WebCodecs", July 2023,
@@ -762,31 +635,25 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
+   [RFC9626]  Zanaty, M., Berger, E., and S. Nandakumar, "Video Frame
+              Marking RTP Header Extension", RFC 9626,
+              DOI 10.17487/RFC9626, March 2025,
+              <https://www.rfc-editor.org/rfc/rfc9626>.
+
    [RFC6464]  Lennox, J., Ed., Ivov, E., and E. Marocco, "A Real-time
               Transport Protocol (RTP) Header Extension for Client-to-
               Mixer Audio Level Indication", RFC 6464,
               DOI 10.17487/RFC6464, December 2011,
               <https://www.rfc-editor.org/rfc/rfc6464>.
 
-   [RFC5646]  Phillips, A., Ed. and M. Davis, Ed., "Tags for Identifying
-              Languages", BCP 47, RFC 5646, DOI 10.17487/RFC5646,
-              September 2009, <https://www.rfc-editor.org/rfc/rfc5646>.
-
-8.2.  Informative References
+7.2.  Informative References
 
    [MoQCatalog]
-              Nandakumar, S., Law, W., and M. Zanaty, "Common Catalog
-              Format for moq-transport", Work in Progress, Internet-
-              Draft, draft-wilaw-moq-catalogformat-02, 30 November 2023,
-              <https://datatracker.ietf.org/doc/html/draft-wilaw-moq-
-              catalogformat-02>.
-
-   [Framemarking]
-              Zanaty, M., Berger, E., and S. Nandakumar, "Video Frame
-              Marking RTP Header Extension", Work in Progress, Internet-
-              Draft, draft-ietf-avtext-framemarking-16, 4 March 2024,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-avtext-
-              framemarking-16>.
+              Law, W., Curley, L., Vasiliev, V., Nandakumar, S., and K.
+              Pugin, "WARP Streaming Format", Work in Progress,
+              Internet-Draft, draft-ietf-moq-warp-00, 16 March 2025,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-moq-
+              warp-00>.
 
    [SecureObjects]
               Jennings, C. F., Nandakumar, S., and R. Barnes, "End-to-
@@ -796,11 +663,11 @@ Table of Contents
               <https://datatracker.ietf.org/doc/html/draft-jennings-moq-
               secure-objects-02>.
 
-   [MOQ-MLS]  Jennings, C. F., Nandakumar, S., and R. Barnes, "Secure
-              Group Key Agreement with MLS over MoQ", Work in Progress,
-              Internet-Draft, draft-jennings-moq-e2ee-mls-02, 3 March
+   [MOQ-MLS]  Jennings, C. F., Nandakumar, S., and R. Barnes, "End-to-
+              end Security for Media over QUIC", Work in Progress,
+              Internet-Draft, draft-jennings-moq-e2ee-mls-03, 30 June
               2025, <https://datatracker.ietf.org/doc/html/draft-
-              jennings-moq-e2ee-mls-02>.
+              jennings-moq-e2ee-mls-03>.
 
 Appendix A.  Acknowledgements
 
