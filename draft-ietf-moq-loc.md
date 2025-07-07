@@ -47,8 +47,7 @@ normative:
     target: https://www.w3.org/TR/webcodecs-codec-registry/
 
 informative:
-  MoQCatalog: I-D.wilaw-moq-catalogformat
-  Framemarking: I-D.ietf-avtext-framemarking
+  MoQCatalog: I-D.ietf-moq-warp
   SecureObjects: I-D.jennings-moq-secure-objects
   MOQ-MLS: I-D.jennings-moq-e2ee-mls
 
@@ -58,8 +57,7 @@ informative:
 This specification describes a Low Overhead Media Container (LOC) format for
 encoded and encrypted audio and video media data to be used
 primarily for interactive Media over QUIC Transport (MOQT).
-It further defines the
-LOC Streaming Format for the MOQ Common Catalog format
+It may be used in the WARP streaming specification, which defines a catalog format
 for publishers to annouce and describe their LOC tracks and for
 subscribers to consume them. Examples are also provided
 for building media applications using LOC and MOQT.
@@ -69,8 +67,8 @@ for building media applications using LOC and MOQT.
 
 # Introduction
 
-This specification describes a low-overhead media container format for
-encoded and encrypted audio and video media data, as well as a MOQ Common Catalog streaming format called LOC to describe such tracks.
+This specification describes a low-overhead media container (LOC) format for
+encoded and encrypted audio and video media data.
 
 "Low-overhead" refers to minimal extra encapsulation as well as minimal application overhead when interfacing with WebCodecs {{WebCodecs}}.
 
@@ -100,8 +98,10 @@ Codec Registry avoids duplicating it in an identical IANA registry.
 
 * {{headers}} defines the metadata associated with audio and video payloads.
 
-* {{catalog}} describes the LOC Streaming Format bindings to the MoQ Common Catalog format including examples.
+* {{encryption}} defines the usage of end-to-end encrypted LOC payloads.
 
+* {{examples}} provides examples with details for building audio and video applications
+using LOC over MOQ.
 
 ## Requirements Notation and Conventions
 
@@ -224,7 +224,7 @@ when the encoded media frame was captured, encoded as a varint.
 * Name: Video Frame Marking
 * Description: Flags for video frames which are independent, discardable, or
 base layer sync points, as well as temporal and spatial layer
-identification, as defined in {{Framemarking}}, encoded in the least
+identification, as defined in {{!RFC9626}}, encoded in the least
 significant bits of a varint.
 * ID: 4 (IANA, please assign from the MOQ Header Extensions Registry)
 * Length: Varies (1-4 bytes)
@@ -243,98 +243,20 @@ encoded in the least significant 8 bits of a varint.
 * Value: Varies
 
 
-# Catalog {#catalog}
 
-A catalog track provides information about tracks from a given publisher. A catalog is used by subscribers for consuming tracks and by publishers
-to advertise and describe the tracks. The content of a catalog is opaque to the relays and may be end to end encrypted. A catalog describes the details of tracks such as Track IDs and corresponding media configuration details, for example, audio/video codec details.
-
-The LOC Streaming Format uses the MoQ Common Catalog Format {{MoQCatalog}} to describe the content being produced by a publisher.
-
-Per Sect 5.1 of {{MoQCatalog}}, this document registers an entry in the "MoQ Streaming Format Type" table, with the type value 2, the name "LOC Streaming Format", and the RFC XXX.
-
-Every LOC catalog track MUST declare a streaming format type (See Sect 3.2.1 of {{MoQCatalog}}) value of 2.
-
-Every LOC catalog track MUST declare a streaming format version (See Sect 3.2.1 of {{MoQCatalog}}) value of 1, which is the version described in this document.
-
-Every LOC catalog track MUST declare a packaging type (See Sect 3.2.9 of {{MoQCatalog}}) of "loc".
-
-The catalog track MUST have a track name of "catalog". A catalog object MAY be independent of other catalog objects or it MAY represent a delta update of a prior catalog object. The first catalog object published within a new group MUST be independent. A catalog object SHOULD only be published only when the availability of tracks changes.
-
-Each catalog update MUST be mapped to a discreet moq-transport object.
-
-
-## Catalog Fields
-
-The MOQ Common Catalog defines the required base fields and optional extensions.
-
-### Optional Extensions for Video {#video-ext}
-
-The LOC Streaming Format allows the following optional extensions for video media.
-
-* temporalId: Identifies the temporal layer/sub-layer encoded, starting with 0 for the base layer, and increasing with higher temporal fidelity.
-
-* spatialId: Identifies the spatial and quality layer encoded, starting with 0 for the base layer, and increasing with higher fidelity.
-
-* depends: Identifies track dependencies for a given track, usually for video media with scalable layers in separate tracks.
-
-* renderGroup: Identifies a group of time-aligned tracks which should be rendered simultaneously.
-
-* selectionParams: Selection parameters for media quality, fidelity, etc.; see next section.
-
-### Selection Parameters for Video {#profile}
-
-Each video track can have the following associated Selection Parameters.
-
-* codec: Codec information (including profile, level, tier, etc.), as defined by the codec registrations listed in {{WEBCODECS-CODEC-REGISTRY}}.
-
-* framerate: As defined in section 7.8 of {{WEBCODECS-CODEC-REGISTRY}}.
-
-* bitrate: As defined in section 7.7 and 7.8 of {{WEBCODECS-CODEC-REGISTRY}}.
-
-* width, height: As defined in section 7.8 of {{WEBCODECS-CODEC-REGISTRY}}.
-
-* displayWidth, displayheight: As defined in section 7.7 of {{WEBCODECS-CODEC-REGISTRY}}.
-
-### Optional Extensions for Audio
-
-The LOC Streaming Format allows the following optional extensions for audio media.
-
-* renderGroup: Identifies a group of time-aligned tracks which should be rendered simultaneously.
-
-* selectionParams: Selection parameters for media quality, fidelity, etc.; see next section.
-
-### Selection Parameters for Audio {#audioprofile}
-
-Each audio track can have the following associated Selection Parameters.
-
-* codec: Codec information as defined by the codec registrations listed in {{WEBCODECS-CODEC-REGISTRY}}.
-
-* bitrate: As defined in section 7.7 and 7.8 of {{WEBCODECS-CODEC-REGISTRY}}.
-
-* samplerate: As defined in section 7.7 of {{WEBCODECS-CODEC-REGISTRY}}.
-
-* chanelConfig: As defined in section 7.7 of {{WEBCODECS-CODEC-REGISTRY}}.
-
-* lang: The primary language of the track, using standard tags from {{!RFC5646}}.
-
-
-## Catalog Examples
-
-See section 3.4 of the MOQ Common Catalog {{MoQCatalog}}.
-
-
-# Payload Encryption
+# Payload Encryption {#encryption}
 
 When end to end encryption is supported, the encoded payload is encrypted
-with symmetric keys derived from key establishment mechanisms, such as {{MOQ-MLS}}, and the payload itself is protected using mechanisms defined in {{SecureObjects}}.
+with symmetric keys derived from key establishment mechanisms, such as {{MOQ-MLS}},
+and the payload itself is protected using mechanisms defined in {{SecureObjects}}.
 
 
-# Examples
+# Examples {#examples}
 
 This section provides examples with details for building audio and video applications
 using MOQ and LOC; more specifically, it provides information on:
 
-  - Using a catalog to describe track information,
+  - Using a WARP catalog {{MoQCatalog}} to describe track information,
   - Packaging media into LOC streaming format, and
   - Mapping application media objects to the MOQT object model and transport.
 
