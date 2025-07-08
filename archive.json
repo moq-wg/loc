@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-06T02:07:44.546309+00:00",
+  "timestamp": "2025-07-08T01:59:35.137013+00:00",
   "repo": "moq-wg/loc",
   "labels": [
     {
@@ -55,16 +55,26 @@
       "id": "I_kwDOOR0qw86whrHV",
       "title": "Move catalog section to WARP draft",
       "url": "https://github.com/moq-wg/loc/issues/1",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "mzanaty",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "mzanaty"
+      ],
       "labels": [],
       "body": "WG consensus is to move the catalog section from LOC to WARP draft.",
       "createdAt": "2025-03-31T21:27:15Z",
-      "updatedAt": "2025-03-31T21:27:15Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-07-07T21:18:29Z",
+      "closedAt": "2025-07-07T21:18:28Z",
+      "comments": [
+        {
+          "author": "mzanaty",
+          "authorAssociation": "COLLABORATOR",
+          "body": "PR#3",
+          "createdAt": "2025-07-07T21:18:28Z",
+          "updatedAt": "2025-07-07T21:18:28Z"
+        }
+      ]
     },
     {
       "number": 2,
@@ -83,5 +93,48 @@
       "comments": []
     }
   ],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 3,
+      "id": "PR_kwDOOR0qw86d05v7",
+      "title": "Update draft-ietf-moq-loc.md",
+      "url": "https://github.com/moq-wg/loc/pull/3",
+      "state": "MERGED",
+      "author": "mzanaty",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Remove catalog",
+      "createdAt": "2025-07-07T21:12:09Z",
+      "updatedAt": "2025-07-07T21:15:54Z",
+      "baseRepository": "moq-wg/loc",
+      "baseRefName": "main",
+      "baseRefOid": "b83d4e78415af4c0614a69d1f40ee6b72a5631ef",
+      "headRepository": "mzanaty/loc",
+      "headRefName": "main",
+      "headRefOid": "b24a8ec39ba2cd499a5f0ac80484ee48f8345dd3",
+      "closedAt": "2025-07-07T21:15:54Z",
+      "mergedAt": "2025-07-07T21:15:54Z",
+      "mergedBy": "mzanaty",
+      "mergeCommit": {
+        "oid": "2a47ee776c7f3a4603f33c54a1aba0e44db9e101"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOR0qw86yiIWT",
+          "commit": {
+            "abbreviatedOid": "b24a8ec"
+          },
+          "author": "suhasHere",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-07T21:14:07Z",
+          "updatedAt": "2025-07-07T21:14:07Z",
+          "comments": []
+        }
+      ]
+    }
+  ]
 }
