@@ -269,6 +269,74 @@ When end to end encryption is supported, the encoded payload is encrypted
 with symmetric keys derived from key establishment mechanisms, such as {{MOQ-MLS}},
 and the payload itself is protected using mechanisms defined in {{SecureObjects}}.
 
+## Secure Objects Integration
+
+{{SecureObjects}} defines a comprehensive framework for end-to-end encryption of
+MOQT objects. When using Secure Objects with LOC, the following considerations apply:
+
+### Key Identification
+
+The Secure Object Key ID extension (type 0x2 in {{SecureObjects}}) MUST be included
+as an immutable extension to identify the keying material used for encryption.
+This extension is authenticated but not encrypted, allowing relays to forward
+objects without decryption while ensuring subscribers can identify the correct
+decryption key.
+
+### Immutable Extensions
+
+LOC header extensions that MUST remain immutable for security include:
+
+* Video Config {{config}} - changing configuration could cause decoding failures
+* Timebase {{timebase}} - timestamp interpretation must be consistent
+
+These extensions SHOULD be included in the immutable extensions set defined by
+{{MoQTransport}} to ensure they cannot be modified by relays and are included
+in the authenticated associated data (AAD) during encryption.
+
+### Private Extensions for Sensitive Metadata {#private-extensions}
+
+Some LOC metadata may be sensitive and should not be visible to relays.
+{{SecureObjects}} defines a Private Extensions mechanism (type 0xA) that allows
+metadata to be encrypted alongside the payload.
+
+The following LOC extensions MAY be carried as Private Extensions when end-to-end
+confidentiality is required:
+
+* Capture Timestamp - reveals timing information about the source
+* Audio Level - reveals voice activity and audio characteristics
+* Video Frame Marking - reveals encoding structure details
+
+When using Private Extensions:
+
+1. The LOC extension is encoded as a key-value pair within the Private
+   Extensions payload
+2. The Private Extensions are concatenated with the media payload before
+   encryption
+3. Upon decryption, the receiver extracts the Private Extensions and
+   reconstructs the LOC metadata
+
+This approach allows sensitive metadata to remain confidential from relays
+while still being available to authorized end subscribers.
+
+### Cipher Suite Requirements
+
+Implementations using LOC with Secure Objects MUST support the
+AES_128_GCM_SHA256_128 cipher suite (0x0004). Other cipher suites defined
+in {{SecureObjects}} MAY be used based on application requirements for
+authentication tag size versus bandwidth overhead.
+
+### AAD Construction
+
+The authenticated associated data (AAD) for AEAD encryption includes:
+
+* Key ID
+* Group ID and Object ID
+* Track namespace and name
+* Serialized immutable extensions
+
+This binding ensures objects cannot be replayed across different tracks
+or contexts.
+
 
 # Examples {#examples}
 
@@ -528,15 +596,46 @@ In some cases, this may be an intentional design intent for proper relay
 operation. In other cases, this may be unintentional or undesirable leaking
 of the metadata to relays. Each metadata that is defined should consider
 the security and privacy aspects of granting relays visibility to the metadata.
-End-to-end encyption schemes should support end-to-end encryption of sensitive
-metadata.
+
+## Protecting Sensitive Metadata
 
 The metadata defined and registered in this specification
 (Capture Timestamp, Video Frame Marking, and Audio Level) may be sensitive
-metadata that should be encrypted end-to-end. They are used by media switches,
-which are not merely relays, and likely have access to some media keys.
-This may require end-to-end encryption schemes with multiple different
-security key contexts for payload versus metadata.
+metadata that should be encrypted end-to-end. Applications requiring
+confidentiality of this metadata SHOULD use the Private Extensions mechanism
+described in {{private-extensions}} to encrypt sensitive metadata alongside
+the payload.
+
+When using {{SecureObjects}} for end-to-end encryption:
+
+* Sensitive metadata (timestamps, audio levels, frame marking) can be
+  encrypted using Private Extensions
+* Immutable extensions are authenticated but visible to relays
+* Media switches that need metadata access require appropriate key material
+
+## Immutable Extension Considerations
+
+Extensions marked as immutable via the IMMUTABLE_EXTENSIONS mechanism in
+{{MoQTransport}} provide integrity protection - relays cannot modify these
+values without detection. However, immutable extensions are NOT encrypted
+and remain visible to relays. Applications must carefully consider which
+extensions require:
+
+* Confidentiality (use Private Extensions)
+* Integrity without confidentiality (use Immutable Extensions)
+* Neither (standard mutable extensions suitable for relay operation)
+
+## Relay Trust Model
+
+Different deployment scenarios have different trust models for relays:
+
+* Untrusted relays: Use Private Extensions for all sensitive metadata
+* Semi-trusted relays (media switches): May have access to metadata keys
+  but not payload keys, enabling switching decisions without content access
+* Trusted relays: May have full key access for transcoding or processing
+
+Applications should select the appropriate protection mechanisms based on
+their relay trust model and privacy requirements.
 
 # IANA Considerations {#iana}
 
