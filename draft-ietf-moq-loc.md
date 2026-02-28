@@ -142,6 +142,41 @@ A 4-byte length prefix can be sent before each NAL Unit, similar to "canonical" 
 
 A 4-byte start code can be sent before each NAL Unit, similar to "annexB" formats. The start code value is 1 in network byte order, i.e. big endian, and SHOULD be 4 bytes long to disambiguate from length prefixes. A 3-byte start code, which is uncommon, MAY be used if the track never uses length prefixes or any Config {{config}}.
 
+### Format Selection Considerations {#format-selection}
+
+When selecting between length-prefix and start-code formats, implementations
+should consider the following:
+
+#### Encryption Compatibility
+
+Length-prefix format is RECOMMENDED when end-to-end encryption is used.
+Start-code format requires start-code emulation prevention during encryption,
+which can cause unpredictable increases in frame size as escape sequences
+must be inserted to prevent the encrypted payload from containing byte
+sequences that look like start codes. This complicates buffer management
+and bandwidth estimation.
+
+Length-prefix format does not have this issue since the length field
+explicitly delimits NAL units regardless of payload content.
+
+#### WebCodecs Compatibility
+
+Both formats are supported by the WebCodecs API via the "annexb" and
+"avc"/"hevc" codec string variants. Applications interfacing with WebCodecs
+can use either format based on their requirements.
+
+#### Interoperability
+
+For maximum interoperability with existing systems:
+
+* Length-prefix format ("avc"/"hevc") is more common in file-based and
+  streaming applications (MP4, CMAF, DASH, HLS)
+* Start-code format ("annexb") is used in broadcast and legacy systems
+  (MPEG-2 TS, some RTP implementations)
+
+New LOC implementations SHOULD prefer length-prefix format unless there
+is a specific requirement for start-code format compatibility.
+
 ## MOQ Object Mapping
 
 An application object when transported as a {{MoQTransport}} object is composed of
