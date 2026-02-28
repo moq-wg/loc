@@ -296,6 +296,41 @@ encoded in the least significant 8 bits of a varint.
 * Length: Varies (1-2 bytes)
 * Value: Varies
 
+### Deletion Detection Extensions {#deletion-detection}
+
+When using end-to-end encryption with {{SecureObjects}}, relays cannot modify
+encrypted payloads but could selectively delete or withhold objects. The
+following extensions, defined in {{MoQTransport}}, enable subscribers to
+detect such deletions:
+
+#### Prior Group ID Gap
+
+* Name: Prior Group ID Gap
+* Description: Indicates the gap between the current Group ID and the previous
+Group ID, encoded as a varint. A value of 1 means consecutive groups.
+Values greater than 1 indicate missing groups that the publisher intentionally
+skipped. This allows subscribers to distinguish between relay deletion and
+publisher-intended gaps.
+* ID: Defined in {{MoQTransport}} (PRIOR_GROUP_ID_GAP)
+* Length: Varies
+* Value: Varies
+
+#### Prior Object ID Gap
+
+* Name: Prior Object ID Gap
+* Description: Indicates the gap between the current Object ID and the previous
+Object ID within the same group, encoded as a varint. A value of 1 means
+consecutive objects. Values greater than 1 indicate missing objects that
+the publisher intentionally skipped. This allows subscribers to distinguish
+between relay deletion and publisher-intended gaps.
+* ID: Defined in {{MoQTransport}} (PRIOR_OBJECT_ID_GAP)
+* Length: Varies
+* Value: Varies
+
+Applications using LOC with end-to-end encryption SHOULD include these
+extensions as immutable to enable deletion detection. When a subscriber
+receives objects with gaps not indicated by these extensions, it indicates
+potential relay misbehavior or network loss.
 
 
 # Payload Encryption {#encryption}
