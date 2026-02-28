@@ -1221,9 +1221,6 @@ for building media applications using LOC and MOQT.<a href="#section-abstract-1"
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.3.2.3">
                     <p id="section-toc.1-1.2.2.3.2.3.1"><a href="#section-2.3.3" class="auto internal xref">2.3.3</a>.  <a href="#name-audio-header-data" class="internal xref">Audio Header Data</a></p>
 </li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.3.2.4">
-                    <p id="section-toc.1-1.2.2.3.2.4.1"><a href="#section-2.3.4" class="auto internal xref">2.3.4</a>.  <a href="#name-deletion-detection-extensio" class="internal xref">Deletion Detection Extensions</a></p>
-</li>
                 </ul>
 </li>
             </ul>
@@ -1288,10 +1285,21 @@ for building media applications using LOC and MOQT.<a href="#section-abstract-1"
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
                 <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-relay-trust-model" class="internal xref">Relay Trust Model</a></p>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4">
+                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-deletion-detection" class="internal xref">Deletion Detection</a></p>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-moq-extension-headers-regis" class="internal xref">MOQ Extension Headers Registry</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-moq-streaming-format-regist" class="internal xref">MoQ Streaming Format Registry</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
             <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-references" class="internal xref">References</a></p>
@@ -1572,13 +1580,13 @@ the timestamp is interpreted as wall-clock time in microseconds since
 the Unix epoch.<a href="#section-2.3.1.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-2.3.1.1-1.3">
-                <p id="section-2.3.1.1-1.3.1">ID: 2 (IANA, please assign from the MOQ Header Extensions Registry)<a href="#section-2.3.1.1-1.3.1" class="pilcrow">¶</a></p>
+                <p id="section-2.3.1.1-1.3.1">ID: 0x06<a href="#section-2.3.1.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-2.3.1.1-1.4">
-                <p id="section-2.3.1.1-1.4.1">Length: Varies (1-8 bytes)<a href="#section-2.3.1.1-1.4.1" class="pilcrow">¶</a></p>
+                <p id="section-2.3.1.1-1.4.1">Length: Omitted (ID is even)<a href="#section-2.3.1.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-2.3.1.1-1.5">
-                <p id="section-2.3.1.1-1.5.1">Value: Varies<a href="#section-2.3.1.1-1.5.1" class="pilcrow">¶</a></p>
+                <p id="section-2.3.1.1-1.5.1">Value: Varint (1-8 bytes)<a href="#section-2.3.1.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </section>
@@ -1604,13 +1612,13 @@ anchor point for the timestamp is application-defined. If this extension
 is not present, timestamps default to microseconds since Unix epoch.<a href="#section-2.3.1.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-2.3.1.2-1.3">
-                <p id="section-2.3.1.2-1.3.1">ID: 8 (IANA, please assign from the MOQ Header Extensions Registry)<a href="#section-2.3.1.2-1.3.1" class="pilcrow">¶</a></p>
+                <p id="section-2.3.1.2-1.3.1">ID: 0x08<a href="#section-2.3.1.2-1.3.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-2.3.1.2-1.4">
-                <p id="section-2.3.1.2-1.4.1">Length: Varies (1-4 bytes)<a href="#section-2.3.1.2-1.4.1" class="pilcrow">¶</a></p>
+                <p id="section-2.3.1.2-1.4.1">Length: Omitted (ID is even)<a href="#section-2.3.1.2-1.4.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-2.3.1.2-1.5">
-                <p id="section-2.3.1.2-1.5.1">Value: Varies<a href="#section-2.3.1.2-1.5.1" class="pilcrow">¶</a></p>
+                <p id="section-2.3.1.2-1.5.1">Value: Varint (1-4 bytes)<a href="#section-2.3.1.2-1.5.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </section>
@@ -1704,77 +1712,6 @@ encoded in the least significant 8 bits of a varint.<a href="#section-2.3.3.1-1.
                 <p id="section-2.3.3.1-1.5.1">Value: Varies<a href="#section-2.3.3.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
-</section>
-</div>
-</section>
-</div>
-<div id="deletion-detection">
-<section id="section-2.3.4">
-          <h4 id="name-deletion-detection-extensio">
-<a href="#section-2.3.4" class="section-number selfRef">2.3.4. </a><a href="#name-deletion-detection-extensio" class="section-name selfRef">Deletion Detection Extensions</a>
-          </h4>
-<p id="section-2.3.4-1">When using end-to-end encryption with <span>[<a href="#SecureObjects" class="cite xref">SecureObjects</a>]</span>, relays cannot modify
-encrypted payloads but could selectively delete or withhold objects. The
-following extensions, defined in <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span>, enable subscribers to
-detect such deletions:<a href="#section-2.3.4-1" class="pilcrow">¶</a></p>
-<div id="prior-group-id-gap">
-<section id="section-2.3.4.1">
-            <h5 id="name-prior-group-id-gap">
-<a href="#section-2.3.4.1" class="section-number selfRef">2.3.4.1. </a><a href="#name-prior-group-id-gap" class="section-name selfRef">Prior Group ID Gap</a>
-            </h5>
-<ul class="normal">
-<li class="normal" id="section-2.3.4.1-1.1">
-                <p id="section-2.3.4.1-1.1.1">Name: Prior Group ID Gap<a href="#section-2.3.4.1-1.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-2.3.4.1-1.2">
-                <p id="section-2.3.4.1-1.2.1">Description: Indicates the gap between the current Group ID and the previous
-Group ID, encoded as a varint. A value of 1 means consecutive groups.
-Values greater than 1 indicate missing groups that the publisher intentionally
-skipped. This allows subscribers to distinguish between relay deletion and
-publisher-intended gaps.<a href="#section-2.3.4.1-1.2.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-2.3.4.1-1.3">
-                <p id="section-2.3.4.1-1.3.1">ID: Defined in <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> (PRIOR_GROUP_ID_GAP)<a href="#section-2.3.4.1-1.3.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-2.3.4.1-1.4">
-                <p id="section-2.3.4.1-1.4.1">Length: Varies<a href="#section-2.3.4.1-1.4.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-2.3.4.1-1.5">
-                <p id="section-2.3.4.1-1.5.1">Value: Varies<a href="#section-2.3.4.1-1.5.1" class="pilcrow">¶</a></p>
-</li>
-            </ul>
-</section>
-</div>
-<div id="prior-object-id-gap">
-<section id="section-2.3.4.2">
-            <h5 id="name-prior-object-id-gap">
-<a href="#section-2.3.4.2" class="section-number selfRef">2.3.4.2. </a><a href="#name-prior-object-id-gap" class="section-name selfRef">Prior Object ID Gap</a>
-            </h5>
-<ul class="normal">
-<li class="normal" id="section-2.3.4.2-1.1">
-                <p id="section-2.3.4.2-1.1.1">Name: Prior Object ID Gap<a href="#section-2.3.4.2-1.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-2.3.4.2-1.2">
-                <p id="section-2.3.4.2-1.2.1">Description: Indicates the gap between the current Object ID and the previous
-Object ID within the same group, encoded as a varint. A value of 1 means
-consecutive objects. Values greater than 1 indicate missing objects that
-the publisher intentionally skipped. This allows subscribers to distinguish
-between relay deletion and publisher-intended gaps.<a href="#section-2.3.4.2-1.2.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-2.3.4.2-1.3">
-                <p id="section-2.3.4.2-1.3.1">ID: Defined in <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> (PRIOR_OBJECT_ID_GAP)<a href="#section-2.3.4.2-1.3.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-2.3.4.2-1.4">
-                <p id="section-2.3.4.2-1.4.1">Length: Varies<a href="#section-2.3.4.2-1.4.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-2.3.4.2-1.5">
-                <p id="section-2.3.4.2-1.5.1">Value: Varies<a href="#section-2.3.4.2-1.5.1" class="pilcrow">¶</a></p>
-</li>
-            </ul>
-<p id="section-2.3.4.2-2">Applications using LOC with end-to-end encryption <span class="bcp14">SHOULD</span> include these
-extensions as immutable to enable deletion detection. When a subscriber
-receives objects with gaps not indicated by these extensions, it indicates
-potential relay misbehavior or network loss.<a href="#section-2.3.4.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2253,6 +2190,19 @@ but not payload keys, enabling switching decisions without content access<a href
 their relay trust model and privacy requirements.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="deletion-detection">
+<section id="section-5.4">
+        <h3 id="name-deletion-detection">
+<a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-deletion-detection" class="section-name selfRef">Deletion Detection</a>
+        </h3>
+<p id="section-5.4-1">When using end-to-end encryption, relays cannot modify encrypted payloads
+but could selectively delete or withhold objects. <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> defines
+PRIOR_GROUP_ID_GAP and PRIOR_OBJECT_ID_GAP extensions that publishers can
+include to indicate intentional gaps in sequences. Subscribers can use these
+to distinguish between publisher-intended gaps and potential relay deletion.
+<span>[<a href="#SecureObjects" class="cite xref">SecureObjects</a>]</span> provides additional mechanisms for detecting such attacks.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="iana">
@@ -2260,9 +2210,54 @@ their relay trust model and privacy requirements.<a href="#section-5.3-3" class=
       <h2 id="name-iana-considerations">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-6-1">The IANA registry for MOQ Object Header Extensions is populated with
-the entries specified in section <a href="#headers" class="auto internal xref">Section 2.3</a>, referencing this specification.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">This document creates a new entry in the "MoQ Streaming Format" Registry (see <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Sect 8). The type value is 0x002, the name is "LOC Streaming Format" and the RFC is XXX.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<div id="moq-extension-headers-registry">
+<section id="section-6.1">
+        <h3 id="name-moq-extension-headers-regis">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-moq-extension-headers-regis" class="section-name selfRef">MOQ Extension Headers Registry</a>
+        </h3>
+<p id="section-6.1-1">This document registers the following entries in the "MOQ Extension Headers"
+registry established by <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span>:<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<table class="center" id="table-1">
+          <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Type</th>
+              <th class="text-left" rowspan="1" colspan="1">Name</th>
+              <th class="text-left" rowspan="1" colspan="1">Scope</th>
+              <th class="text-left" rowspan="1" colspan="1">Specification</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">0x06</td>
+              <td class="text-left" rowspan="1" colspan="1">CAPTURE_TIMESTAMP</td>
+              <td class="text-left" rowspan="1" colspan="1">Object</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <a href="#headers" class="auto internal xref">Section 2.3</a>
+</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">0x08</td>
+              <td class="text-left" rowspan="1" colspan="1">TIMEBASE</td>
+              <td class="text-left" rowspan="1" colspan="1">Object</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <a href="#timebase" class="auto internal xref">Section 2.3.1.2</a>
+</td>
+            </tr>
+          </tbody>
+        </table>
+</section>
+</div>
+<div id="moq-streaming-format-registry">
+<section id="section-6.2">
+        <h3 id="name-moq-streaming-format-regist">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-moq-streaming-format-regist" class="section-name selfRef">MoQ Streaming Format Registry</a>
+        </h3>
+<p id="section-6.2-1">This document creates a new entry in the "MoQ Streaming Format" Registry
+(see <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Sect 8). The type value is 0x002, the name is
+"LOC Streaming Format" and the RFC is XXX.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="sec-combined-references">

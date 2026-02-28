@@ -88,7 +88,6 @@ Table of Contents
        2.3.1.  Common Header Data
        2.3.2.  Video Header Data
        2.3.3.  Audio Header Data
-       2.3.4.  Deletion Detection Extensions
    3.  Payload Encryption
      3.1.  Secure Objects Integration
        3.1.1.  Key Identification
@@ -108,7 +107,10 @@ Table of Contents
      5.1.  Protecting Sensitive Metadata
      5.2.  Immutable Extension Considerations
      5.3.  Relay Trust Model
+     5.4.  Deletion Detection
    6.  IANA Considerations
+     6.1.  MOQ Extension Headers Registry
+     6.2.  MoQ Streaming Format Registry
    7.  References
      7.1.  Normative References
      7.2.  Informative References
@@ -343,12 +345,11 @@ Table of Contents
       Timebase extension is present, the timestamp is interpreted as
       wall-clock time in microseconds since the Unix epoch.
 
-   *  ID: 2 (IANA, please assign from the MOQ Header Extensions
-      Registry)
+   *  ID: 0x06
 
-   *  Length: Varies (1-8 bytes)
+   *  Length: Omitted (ID is even)
 
-   *  Value: Varies
+   *  Value: Varint (1-8 bytes)
 
 2.3.1.2.  Timebase
 
@@ -366,12 +367,11 @@ Table of Contents
       application-defined.  If this extension is not present, timestamps
       default to microseconds since Unix epoch.
 
-   *  ID: 8 (IANA, please assign from the MOQ Header Extensions
-      Registry)
+   *  ID: 0x08
 
-   *  Length: Varies (1-4 bytes)
+   *  Length: Omitted (ID is even)
 
-   *  Value: Varies
+   *  Value: Varint (1-4 bytes)
 
 2.3.2.  Video Header Data
 
@@ -424,51 +424,6 @@ Table of Contents
    *  Length: Varies (1-2 bytes)
 
    *  Value: Varies
-
-2.3.4.  Deletion Detection Extensions
-
-   When using end-to-end encryption with [SecureObjects], relays cannot
-   modify encrypted payloads but could selectively delete or withhold
-   objects.  The following extensions, defined in [MoQTransport], enable
-   subscribers to detect such deletions:
-
-2.3.4.1.  Prior Group ID Gap
-
-   *  Name: Prior Group ID Gap
-
-   *  Description: Indicates the gap between the current Group ID and
-      the previous Group ID, encoded as a varint.  A value of 1 means
-      consecutive groups.  Values greater than 1 indicate missing groups
-      that the publisher intentionally skipped.  This allows subscribers
-      to distinguish between relay deletion and publisher-intended gaps.
-
-   *  ID: Defined in [MoQTransport] (PRIOR_GROUP_ID_GAP)
-
-   *  Length: Varies
-
-   *  Value: Varies
-
-2.3.4.2.  Prior Object ID Gap
-
-   *  Name: Prior Object ID Gap
-
-   *  Description: Indicates the gap between the current Object ID and
-      the previous Object ID within the same group, encoded as a varint.
-      A value of 1 means consecutive objects.  Values greater than 1
-      indicate missing objects that the publisher intentionally skipped.
-      This allows subscribers to distinguish between relay deletion and
-      publisher-intended gaps.
-
-   *  ID: Defined in [MoQTransport] (PRIOR_OBJECT_ID_GAP)
-
-   *  Length: Varies
-
-   *  Value: Varies
-
-   Applications using LOC with end-to-end encryption SHOULD include
-   these extensions as immutable to enable deletion detection.  When a
-   subscriber receives objects with gaps not indicated by these
-   extensions, it indicates potential relay misbehavior or network loss.
 
 3.  Payload Encryption
 
@@ -839,11 +794,35 @@ Table of Contents
    Applications should select the appropriate protection mechanisms
    based on their relay trust model and privacy requirements.
 
+5.4.  Deletion Detection
+
+   When using end-to-end encryption, relays cannot modify encrypted
+   payloads but could selectively delete or withhold objects.
+   [MoQTransport] defines PRIOR_GROUP_ID_GAP and PRIOR_OBJECT_ID_GAP
+   extensions that publishers can include to indicate intentional gaps
+   in sequences.  Subscribers can use these to distinguish between
+   publisher-intended gaps and potential relay deletion.
+   [SecureObjects] provides additional mechanisms for detecting such
+   attacks.
+
 6.  IANA Considerations
 
-   The IANA registry for MOQ Object Header Extensions is populated with
-   the entries specified in section Section 2.3, referencing this
-   specification.
+6.1.  MOQ Extension Headers Registry
+
+   This document registers the following entries in the "MOQ Extension
+   Headers" registry established by [MoQTransport]:
+
+          +======+===================+========+=================+
+          | Type | Name              | Scope  | Specification   |
+          +======+===================+========+=================+
+          | 0x06 | CAPTURE_TIMESTAMP | Object | Section 2.3     |
+          +------+-------------------+--------+-----------------+
+          | 0x08 | TIMEBASE          | Object | Section 2.3.1.2 |
+          +------+-------------------+--------+-----------------+
+
+                                  Table 1
+
+6.2.  MoQ Streaming Format Registry
 
    This document creates a new entry in the "MoQ Streaming Format"
    Registry (see [MoQTransport] Sect 8).  The type value is 0x002, the
