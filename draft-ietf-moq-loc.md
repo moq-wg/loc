@@ -203,10 +203,29 @@ information in the IANA registry.
 #### Capture Timestamp
 
 * Name: Capture Timestamp
-* Description: Wall-clock time in microseconds since the Unix epoch
-when the encoded media frame was captured, encoded as a varint.
+* Description: Timestamp of when the encoded media frame was captured,
+encoded as a varint. The unit of the timestamp is determined by the
+Timebase extension {{timebase}}. If no Timebase extension is present,
+the timestamp is interpreted as wall-clock time in microseconds since
+the Unix epoch.
 * ID: 2 (IANA, please assign from the MOQ Header Extensions Registry)
 * Length: Varies (1-8 bytes)
+* Value: Varies
+
+#### Timebase {#timebase}
+
+* Name: Timebase
+* Description: The number of timestamp units per second, encoded as a varint.
+This extension defines the unit for interpreting timestamp values in the
+Capture Timestamp extension. Common values include 1000000 for microseconds,
+48000 for audio at 48kHz sample rate, 90000 for 90kHz media clock (common in
+RTP/RTSP), or values like 60000 for video at 59.94fps (60000/1001). When this
+extension is present, the Capture Timestamp represents media time rather than
+wall-clock time, allowing integer timestamps for all frames. The epoch or
+anchor point for the timestamp is application-defined. If this extension
+is not present, timestamps default to microseconds since Unix epoch.
+* ID: 8 (IANA, please assign from the MOQ Header Extensions Registry)
+* Length: Varies (1-4 bytes)
 * Value: Varies
 
 ### Video Header Data
