@@ -243,9 +243,9 @@ encoded as a varint. The unit of the timestamp is determined by the
 Timebase extension {{timebase}}. If no Timebase extension is present,
 the timestamp is interpreted as wall-clock time in microseconds since
 the Unix epoch.
-* ID: 2 (IANA, please assign from the MOQ Header Extensions Registry)
-* Length: Varies (1-8 bytes)
-* Value: Varies
+* ID: 0x06
+* Length: Omitted (ID is even)
+* Value: Varint (1-8 bytes)
 
 #### Timebase {#timebase}
 
@@ -259,9 +259,9 @@ extension is present, the Capture Timestamp represents media time rather than
 wall-clock time, allowing integer timestamps for all frames. The epoch or
 anchor point for the timestamp is application-defined. If this extension
 is not present, timestamps default to microseconds since Unix epoch.
-* ID: 8 (IANA, please assign from the MOQ Header Extensions Registry)
-* Length: Varies (1-4 bytes)
-* Value: Varies
+* ID: 0x08
+* Length: Omitted (ID is even)
+* Value: Varint (1-4 bytes)
 
 ### Video Header Data
 
@@ -295,43 +295,6 @@ encoded in the least significant 8 bits of a varint.
 * ID: 6 (IANA, please assign from the MOQ Header Extensions Registry)
 * Length: Varies (1-2 bytes)
 * Value: Varies
-
-### Deletion Detection Extensions {#deletion-detection}
-
-When using end-to-end encryption with {{SecureObjects}}, relays cannot modify
-encrypted payloads but could selectively delete or withhold objects. The
-following extensions, defined in {{MoQTransport}}, enable subscribers to
-detect such deletions:
-
-#### Prior Group ID Gap
-
-* Name: Prior Group ID Gap
-* Description: Indicates the gap between the current Group ID and the previous
-Group ID, encoded as a varint. A value of 1 means consecutive groups.
-Values greater than 1 indicate missing groups that the publisher intentionally
-skipped. This allows subscribers to distinguish between relay deletion and
-publisher-intended gaps.
-* ID: Defined in {{MoQTransport}} (PRIOR_GROUP_ID_GAP)
-* Length: Varies
-* Value: Varies
-
-#### Prior Object ID Gap
-
-* Name: Prior Object ID Gap
-* Description: Indicates the gap between the current Object ID and the previous
-Object ID within the same group, encoded as a varint. A value of 1 means
-consecutive objects. Values greater than 1 indicate missing objects that
-the publisher intentionally skipped. This allows subscribers to distinguish
-between relay deletion and publisher-intended gaps.
-* ID: Defined in {{MoQTransport}} (PRIOR_OBJECT_ID_GAP)
-* Length: Varies
-* Value: Varies
-
-Applications using LOC with end-to-end encryption SHOULD include these
-extensions as immutable to enable deletion detection. When a subscriber
-receives objects with gaps not indicated by these extensions, it indicates
-potential relay misbehavior or network loss.
-
 
 # Payload Encryption {#encryption}
 
@@ -707,12 +670,32 @@ Different deployment scenarios have different trust models for relays:
 Applications should select the appropriate protection mechanisms based on
 their relay trust model and privacy requirements.
 
+## Deletion Detection
+
+When using end-to-end encryption, relays cannot modify encrypted payloads
+but could selectively delete or withhold objects. {{MoQTransport}} defines
+PRIOR_GROUP_ID_GAP and PRIOR_OBJECT_ID_GAP extensions that publishers can
+include to indicate intentional gaps in sequences. Subscribers can use these
+to distinguish between publisher-intended gaps and potential relay deletion.
+{{SecureObjects}} provides additional mechanisms for detecting such attacks.
+
 # IANA Considerations {#iana}
 
-The IANA registry for MOQ Object Header Extensions is populated with
-the entries specified in section {{headers}}, referencing this specification.
+## MOQ Extension Headers Registry
 
-This document creates a new entry in the "MoQ Streaming Format" Registry (see {{MoQTransport}} Sect 8). The type value is 0x002, the name is "LOC Streaming Format" and the RFC is XXX.
+This document registers the following entries in the "MOQ Extension Headers"
+registry established by {{MoQTransport}}:
+
+| Type | Name              | Scope  | Specification           |
+|:-----|:------------------|:-------|:------------------------|
+| 0x06 | CAPTURE_TIMESTAMP | Object | {{headers}}             |
+| 0x08 | TIMEBASE          | Object | {{timebase}}            |
+
+## MoQ Streaming Format Registry
+
+This document creates a new entry in the "MoQ Streaming Format" Registry
+(see {{MoQTransport}} Sect 8). The type value is 0x002, the name is
+"LOC Streaming Format" and the RFC is XXX.
 
 --- back
 
