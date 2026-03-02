@@ -47,7 +47,7 @@ normative:
     target: https://www.w3.org/TR/webcodecs-codec-registry/
 
 informative:
-  MoQCatalog: I-D.ietf-moq-warp
+  MoQCatalog: I-D.ietf-moq-msf
   SecureObjects: I-D.jennings-moq-secure-objects
   MOQ-MLS: I-D.jennings-moq-e2ee-mls
 
@@ -57,8 +57,9 @@ informative:
 This specification describes a Low Overhead Media Container (LOC) format for
 encoded and encrypted audio and video media data to be used
 primarily for interactive Media over QUIC Transport (MOQT).
-It may be used in the WARP streaming specification, which defines a catalog format
-for publishers to annouce and describe their LOC tracks and for
+It may be used in the MOQT Streaming Format (MSF) specification,
+which defines a catalog format
+for publishers to declare and describe their LOC tracks and for
 subscribers to consume them. Examples are also provided
 for building media applications using LOC and MOQT.
 
@@ -79,8 +80,7 @@ inside an EncodedAudioChunk and EncodedVideoChunk, respectively, specified in th
 
 (Note: Do we need to support timed text tracks such as Web Video Text Tracks (WebVTT) ?)
 
-In addition to the media payloads, critical metadata is also specified for audio and video payloads.
-(Note: Align with MOQT terminology of either "metadata" or "header".)
+In addition to the media payloads, critical metadata called properties are also specified for audio and video payloads.
 
 A primary motivation is to align with media formats used in WebCodecs to minimize
 extra encapsulation and application overhead when interfacing with WebCodecs.
@@ -96,7 +96,7 @@ Codec Registry avoids duplicating it in an identical IANA registry.
 
 * {{payload}} defines the core media payload formats.
 
-* {{headers}} defines the metadata associated with audio and video payloads.
+* {{headers}} defines the metadata, called properties, associated with audio and video payloads.
 
 * {{encryption}} defines the usage of end-to-end encrypted LOC payloads.
 
@@ -132,144 +132,115 @@ Parameter sets can be sent in the bitstream payload before key frames, similar t
 
 ### Parameter Sets in Headers
 
-Parameter sets can be sent in headers before key frames, as described in the Config LOC Header Extension {{config}}, similar to the original "canonical" formats such as "avc1" and "hvc1" codec strings. The Config contents are the "extradata" bytes defined by the corresponding codec specification, which map to the WebCodecs VideoDecoderConfig description property in the EncodedVideoChunkMetadata.
+Parameter sets can be sent in headers before key frames, as described in the Video Config LOC Property {{config}}, similar to the original "canonical" formats such as "avc1" and "hvc1" codec strings. The Video Config contents are the "extradata" bytes defined by the corresponding codec specification, which map to the WebCodecs VideoDecoderConfig description property in the EncodedVideoChunkMetadata.
 
 ### Length Prefixes in Payload
 
-A 4-byte length prefix can be sent before each NAL Unit, similar to "canonical" ("avc" or "hevc") formats. A length value of 1 should be interpreted as a start code rather than a length. The length is in network byte order, i.e. big endian, and SHOULD be 4 bytes long to disambiguate from start code prefixes. A length prefix less than 4 bytes long, which is uncommon, MAY be specified in the Config {{config}}.
+A 4-byte length prefix can be sent before each NAL Unit, similar to "canonical" ("avc" or "hevc") formats. A length value of 1 SHOULD be interpreted as a start code rather than a length. The length is in network byte order, i.e. big endian, and SHOULD be 4 bytes long to disambiguate from start code prefixes. A length prefix less than 4 bytes long, which is uncommon, MAY be specified in the Video Config {{config}}.
 
 ### Start Code Prefixes in Payload
 
 A 4-byte start code can be sent before each NAL Unit, similar to "annexB" formats. The start code value is 1 in network byte order, i.e. big endian, and SHOULD be 4 bytes long to disambiguate from length prefixes. A 3-byte start code, which is uncommon, MAY be used if the track never uses length prefixes or any Config {{config}}.
 
-### Format Selection Considerations {#format-selection}
-
-When selecting between length-prefix and start-code formats, implementations
-should consider the following:
-
-#### Encryption Compatibility
-
-Length-prefix format is RECOMMENDED when end-to-end encryption is used.
-Start-code format requires start-code emulation prevention during encryption,
-which can cause unpredictable increases in frame size as escape sequences
-must be inserted to prevent the encrypted payload from containing byte
-sequences that look like start codes. This complicates buffer management
-and bandwidth estimation.
-
-Length-prefix format does not have this issue since the length field
-explicitly delimits NAL units regardless of payload content.
-
-#### WebCodecs Compatibility
-
-Both formats are supported by the WebCodecs API via the "annexb" and
-"avc"/"hevc" codec string variants. Applications interfacing with WebCodecs
-can use either format based on their requirements.
-
-#### Interoperability
-
-For maximum interoperability with existing systems:
-
-* Length-prefix format ("avc"/"hevc") is more common in file-based and
-  streaming applications (MP4, CMAF, DASH, HLS)
-* Start-code format ("annexb") is used in broadcast and legacy systems
-  (MPEG-2 TS, some RTP implementations)
-
-New LOC implementations SHOULD prefer length-prefix format unless there
-is a specific requirement for start-code format compatibility.
-
 ## MOQ Object Mapping
 
 An application object when transported as a {{MoQTransport}} object is composed of
-a MOQ Object Header, with optional Extensions, and a Payload.
+a MOQ Object Header, with optional Properties, and a Payload.
 Media objects encoded using the container format defined in this
-specification populate the MOQ Object Payload with the LOC Payload, and
-the MOQ Object Header Extensions with the LOC Header Extensions, as shown below.
+specification populate the MOQ Object Properties with the LOC Public Properties,
+and populate the MOQ Object Payload with LOC Private Properties
+followed by the LOC Payload, as shown below.
 
 The LOC Payload is the "internal data" of an EncodedAudioChunk or EncodedVideoChunk.
 
-The LOC Header Extensions carry optional metadata related to the Payload.
+The LOC Public and Private Properties carry optional metadata related to the Payload,
+where Public Properties are visible to relays while Private Properties can be encypted
+end to end wi
 
 ~~~ ascii-art
 
 <-----------  MOQ Object  ------------>
 +----------+--------------+-----------+
 |   MOQ    |  MOQ Header  |    MOQ    |
-|  Header  |  Extensions  |  Payload  |
+|  Header  |  Properties  |  Payload  |
 +----------+--------------+-----------+
                   |             |
                   |             |
-           +--------------+-----------+
-           |  LOC Header  |    LOC    |
-           |  Extensions  |  Payload  |
-           +--------------+-----------+
+           +--------------+---------------------------+
+           |  LOC Public  |  LOC Private  |    LOC    |
+           |  Properties  |  Properties   |  Payload  |
+           +--------------+---------------+-----------+
 
-LOC Header Extensions = some MOQ Object Header Extensions
-LOC Payload = all MOQ Object Payload
+LOC Public Properties                = some MOQ Object Properties
+LOC Private Properties + LOC Payload = all  MOQ Object Payload
 LOC Payload = "internal data" of EncodedAudio/VideoChunk
 
 ~~~
 
-## LOC Header Extensions {#headers}
+## LOC Properties {#headers}
 
-The LOC Header Extensions carry optional metadata for the corresponding LOC Payload.
-The LOC Header Extensions are contained within the MOQ Object Header Extensions.
+The LOC Public and Private Properties carry optional metadata for the corresponding LOC Payload.
+The LOC Public Properties are contained within the MOQ Object Properties.
 This metadata provides necessary information for
 end subscribers, relays and other intermediaries
 to perform their operations without accessing the media payload. For example,
 media switches can use this metadata to perform their media switching decisions
 without accessing the payload which may be encrypted end-to-end
 (from original publisher to end subscribers).
+The LOC Private Properties are contained within the MOQ Object Payload,
+and are not intended to be processed by relays.
 
-The following sections define specific metadata as LOC Header Extensions and
-register them in the IANA registry for MOQ Object Header Extensions.
+The following sections define specific metadata as LOC Public and Private Properties and
+register them in the IANA registry for MOQ Object Properties.
 
-Other specifications can define other metadata as LOC Header Extensions and
-register them in the same registry. Each extension must specify the following
+Other specifications can define other metadata as LOC Public and Private Properties and
+register them in the same registry. Each property must specify the following
 information in the IANA registry.
 
 * Name: Short name for the metadata (not sent on the wire)
 * Description: Detailed description (not sent on the wire)
-* ID: Identifier assigned by the registry (varint)
-* Length: Length of metadata Value in bytes (varint if ID is odd, omitted if ID is even)
-* Value: Value of metadata (varint if ID is even, Length bytes if ID is odd)
+* ID: Identifier assigned by the registry (vi64)
+* Length: Length of metadata Value in bytes (vi64 if ID is odd, omitted if ID is even)
+* Value: Value of metadata (vi64 if ID is even, Length bytes if ID is odd)
 
-### Common Header Data
+### Common Properties
 
-#### Capture Timestamp
+#### Timestamp
 
-* Name: Capture Timestamp
-* Description: Timestamp of when the encoded media frame was captured,
-encoded as a varint. The unit of the timestamp is determined by the
-Timebase extension {{timebase}}. If no Timebase extension is present,
+* Name: Timestamp
+* Description: Timestamp of the encoded media frame encoded as vi64.
+The unit of the timestamp is determined by the Timescale property
+{{timescale}}. If no timescale property is present,
 the timestamp is interpreted as wall-clock time in microseconds since
 the Unix epoch.
 * ID: 0x06
 * Length: Omitted (ID is even)
-* Value: Varint (1-8 bytes)
+* Value: vi64 (1-8 bytes)
 
-#### Timebase {#timebase}
+#### Timescale
 
-* Name: Timebase
-* Description: The number of timestamp units per second, encoded as a varint.
-This extension defines the unit for interpreting timestamp values in the
-Capture Timestamp extension. Common values include 1000000 for microseconds,
-48000 for audio at 48kHz sample rate, 90000 for 90kHz media clock (common in
-RTP/RTSP), or values like 60000 for video at 59.94fps (60000/1001). When this
-extension is present, the Capture Timestamp represents media time rather than
-wall-clock time, allowing integer timestamps for all frames. The epoch or
-anchor point for the timestamp is application-defined. If this extension
-is not present, timestamps default to microseconds since Unix epoch.
+* Name: Timescale
+* Description: The number of Timestamp units per second, encoded as vi64.
+This property defines the unit for interpreting timestamp values in the
+Timestamp property. Common values include 1000000 for microseconds,
+48000 for audio at 48kHz sample rate, 90000 for video at 90kHz clock rate.
+When this property is present, the Timestamp represents media time rather than
+wall-clock time. The epoch or anchor point for the timestamp is
+application-defined. If this property is not present, timestamps default
+to microseconds since Unix epoch.
 * ID: 0x08
 * Length: Omitted (ID is even)
-* Value: Varint (1-4 bytes)
+* Value: vi64 (1-9 bytes)
 
 ### Video Header Data
 
 #### Video Config {#config}
 
 * Name: Video Config
-* Description: Video codec configuration "extradata", as defined by the corresponding codec specification, which maps to the WebCodecs VideoDecoderConfig description property in the EncodedVideoChunkMetadata.
-* ID: 13 (IANA, please assign from the MOQ Header Extensions Registry)
+* Description: Video codec configuration "extradata", as defined by the
+corresponding codec specification, which maps to the WebCodecs VideoDecoderConfig
+description property in the EncodedVideoChunkMetadata.
+* ID: 13 (IANA, please assign from the MOQ Properties Registry)
 * Length: Varies
 * Value: Varies
 
@@ -279,8 +250,8 @@ is not present, timestamps default to microseconds since Unix epoch.
 * Description: Flags for video frames which are independent, discardable, or
 base layer sync points, as well as temporal and spatial layer
 identification, as defined in {{!RFC9626}}, encoded in the least
-significant bits of a varint.
-* ID: 4 (IANA, please assign from the MOQ Header Extensions Registry)
+significant bits of a vi64.
+* ID: 4 (IANA, please assign from the MOQ Properties Registry)
 * Length: Varies (1-4 bytes)
 * Value: Varies
 
@@ -291,8 +262,8 @@ significant bits of a varint.
 * Name: Audio Level
 * Description: The magnitude of the audio level of the corresponding audio frame
 as well as a voice activity indicator as defined in section 3 of {{!RFC6464}},
-encoded in the least significant 8 bits of a varint.
-* ID: 6 (IANA, please assign from the MOQ Header Extensions Registry)
+encoded in the least significant 8 bits of a vi64.
+* ID: 6 (IANA, please assign from the MOQ Properties Registry)
 * Length: Varies (1-2 bytes)
 * Value: Varies
 
@@ -309,43 +280,41 @@ MOQT objects. When using Secure Objects with LOC, the following considerations a
 
 ### Key Identification
 
-The Secure Object Key ID extension (type 0x2 in {{SecureObjects}}) MUST be included
-as an immutable extension to identify the keying material used for encryption.
-This extension is authenticated but not encrypted, allowing relays to forward
+The Secure Object Key ID property (type 0x2 in {{SecureObjects}}) MUST be included
+as an immutable property to identify the keying material used for encryption.
+This property is authenticated but not encrypted, allowing relays to forward
 objects without decryption while ensuring subscribers can identify the correct
 decryption key.
 
-### Immutable Extensions
+### Immutable Properties
 
-LOC header extensions that MUST remain immutable for security include:
+LOC Properties that should be immutable but visible to relays SHOULD be encoded
+as Immutable Properties as defined in {{MoQTransport}} to ensure they cannot be
+modified by relays and are included in the authenticated associated data (AAD)
+during encryption. This specification does not define any Immutable Properties,
+but other specifications may define some for use with LOC.
 
-* Video Config {{config}} - changing configuration could cause decoding failures
-* Timebase {{timebase}} - timestamp interpretation must be consistent
-
-These extensions SHOULD be included in the immutable extensions set defined by
-{{MoQTransport}} to ensure they cannot be modified by relays and are included
-in the authenticated associated data (AAD) during encryption.
-
-### Private Extensions for Sensitive Metadata {#private-extensions}
+### Private Properties for Sensitive Metadata {#private-properties}
 
 Some LOC metadata may be sensitive and should not be visible to relays.
-{{SecureObjects}} defines a Private Extensions mechanism (type 0xA) that allows
+{{SecureObjects}} defines a Private properties mechanism (type 0xA) that allows
 metadata to be encrypted alongside the payload.
 
-The following LOC extensions MAY be carried as Private Extensions when end-to-end
+The following LOC properties MAY be carried as Private properties when end-to-end
 confidentiality is required:
 
-* Capture Timestamp - reveals timing information about the source
+* Timestamp and Timescale - reveals timing information about the source
 * Audio Level - reveals voice activity and audio characteristics
 * Video Frame Marking - reveals encoding structure details
+* Video Config - reveals encoding configuration details
 
-When using Private Extensions:
+When using Private properties:
 
-1. The LOC extension is encoded as a key-value pair within the Private
-   Extensions payload
-2. The Private Extensions are concatenated with the media payload before
+1. The LOC property is encoded as a key-value pair within the Private
+   properties payload
+2. The Private properties are concatenated with the media payload before
    encryption
-3. Upon decryption, the receiver extracts the Private Extensions and
+3. Upon decryption, the receiver extracts the Private properties and
    reconstructs the LOC metadata
 
 This approach allows sensitive metadata to remain confidential from relays
@@ -365,7 +334,7 @@ The authenticated associated data (AAD) for AEAD encryption includes:
 * Key ID
 * Group ID and Object ID
 * Track namespace and name
-* Serialized immutable extensions
+* Serialized immutable properties
 
 This binding ensures objects cannot be replayed across different tracks
 or contexts.
@@ -376,7 +345,7 @@ or contexts.
 This section provides examples with details for building audio and video applications
 using MOQ and LOC; more specifically, it provides information on:
 
-  - Using a WARP catalog {{MoQCatalog}} to describe track information,
+  - Using a MSF catalog {{MoQCatalog}} to describe track information,
   - Packaging media into LOC streaming format, and
   - Mapping application media objects to the MOQT object model and transport.
 
@@ -622,8 +591,8 @@ corresponding video tracks.
 
 # Security and Privacy Considerations
 
-The metadata in LOC Header Extensions is visible to relays, since the
-MOQ Object Header Extensions are often not encrypted end-to-end
+The metadata in LOC Properties is visible to relays, since the
+MOQ Object Properties are often not encrypted end-to-end
 (from original publisher to end subscribers) in common schemes.
 In some cases, this may be an intentional design intent for proper relay
 operation. In other cases, this may be unintentional or undesirable leaking
@@ -633,36 +602,36 @@ the security and privacy aspects of granting relays visibility to the metadata.
 ## Protecting Sensitive Metadata
 
 The metadata defined and registered in this specification
-(Capture Timestamp, Video Frame Marking, and Audio Level) may be sensitive
+(Timestamp, Timescale, Config, Video Frame Marking, and Audio Level) may be sensitive
 metadata that should be encrypted end-to-end. Applications requiring
-confidentiality of this metadata SHOULD use the Private Extensions mechanism
-described in {{private-extensions}} to encrypt sensitive metadata alongside
+confidentiality of this metadata SHOULD use the Private properties mechanism
+described in {{private-properties}} to encrypt sensitive metadata alongside
 the payload.
 
 When using {{SecureObjects}} for end-to-end encryption:
 
 * Sensitive metadata (timestamps, audio levels, frame marking) can be
-  encrypted using Private Extensions
-* Immutable extensions are authenticated but visible to relays
+  encrypted using Private properties
+* Immutable properties are authenticated but visible to relays
 * Media switches that need metadata access require appropriate key material
 
-## Immutable Extension Considerations
+## Immutable Property Considerations
 
-Extensions marked as immutable via the IMMUTABLE_EXTENSIONS mechanism in
+Properties marked as immutable via the IMMUTABLE_PROPERTIES mechanism in
 {{MoQTransport}} provide integrity protection - relays cannot modify these
-values without detection. However, immutable extensions are NOT encrypted
+values without detection. However, immutable properties are NOT encrypted
 and remain visible to relays. Applications must carefully consider which
-extensions require:
+properties require:
 
-* Confidentiality (use Private Extensions)
-* Integrity without confidentiality (use Immutable Extensions)
-* Neither (standard mutable extensions suitable for relay operation)
+* Confidentiality (use Private properties)
+* Integrity without confidentiality (use Immutable properties)
+* Neither (standard mutable properties suitable for relay operation)
 
 ## Relay Trust Model
 
 Different deployment scenarios have different trust models for relays:
 
-* Untrusted relays: Use Private Extensions for all sensitive metadata
+* Untrusted relays: Use Private properties for all sensitive metadata
 * Semi-trusted relays (media switches): May have access to metadata keys
   but not payload keys, enabling switching decisions without content access
 * Trusted relays: May have full key access for transcoding or processing
@@ -674,22 +643,22 @@ their relay trust model and privacy requirements.
 
 When using end-to-end encryption, relays cannot modify encrypted payloads
 but could selectively delete or withhold objects. {{MoQTransport}} defines
-PRIOR_GROUP_ID_GAP and PRIOR_OBJECT_ID_GAP extensions that publishers can
+PRIOR_GROUP_ID_GAP and PRIOR_OBJECT_ID_GAP properties that publishers can
 include to indicate intentional gaps in sequences. Subscribers can use these
 to distinguish between publisher-intended gaps and potential relay deletion.
 {{SecureObjects}} provides additional mechanisms for detecting such attacks.
 
 # IANA Considerations {#iana}
 
-## MOQ Extension Headers Registry
+## MOQ Properties Registry
 
-This document registers the following entries in the "MOQ Extension Headers"
+This document registers the following entries in the "MOQ property Headers"
 registry established by {{MoQTransport}}:
 
 | Type | Name              | Scope  | Specification           |
 |:-----|:------------------|:-------|:------------------------|
-| 0x06 | CAPTURE_TIMESTAMP | Object | {{headers}}             |
-| 0x08 | TIMEBASE          | Object | {{timebase}}            |
+| 0x06 | TIMESTAMP         | Object | {{timestamp}}           |
+| 0x08 | TIMESCALE         | Track or Object | {{timescale}}  |
 
 ## MoQ Streaming Format Registry
 
