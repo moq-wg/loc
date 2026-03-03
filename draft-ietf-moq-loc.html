@@ -12,12 +12,13 @@
        This specification describes a Low Overhead Media Container (LOC) format for
 encoded and encrypted audio and video media data to be used
 primarily for interactive Media over QUIC Transport (MOQT).
-It may be used in the WARP streaming specification, which defines a catalog format
-for publishers to annouce and describe their LOC tracks and for
+It may be used in the MOQT Streaming Format (MSF) specification,
+which defines a catalog format
+for publishers to declare and describe their LOC tracks and for
 subscribers to consume them. Examples are also provided
 for building media applications using LOC and MOQT. 
     " name="description">
-<meta content="xml2rfc 3.29.0" name="generator">
+<meta content="xml2rfc 3.31.0" name="generator">
 <meta content="LOC" name="keyword">
 <meta content="MOQ" name="keyword">
 <meta content="MOQT" name="keyword">
@@ -25,19 +26,18 @@ for building media applications using LOC and MOQT.
 <meta content="media" name="keyword">
 <meta content="draft-ietf-moq-loc-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.29.0
-    Python 3.12.11
+  xml2rfc 3.31.0
+    Python 3.12.12
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
-    intervaltree 3.1.0
+    intervaltree 3.2.1
     Jinja2 3.1.6
-    lxml 5.3.1
-    platformdirs 4.3.8
+    lxml 6.0.2
+    platformdirs 4.5.1
     pycountry 24.6.1
-    PyYAML 6.0.2
-    requests 2.32.4
-    setuptools 80.9.0
-    wcwidth 0.2.13
+    PyYAML 6.0.3
+    requests 2.32.5
+    wcwidth 0.3.0
 -->
 <link href="draft-ietf-moq-loc.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -178,7 +178,7 @@ for building media applications using LOC and MOQT.
   font-weight: 400;
   font-display: swap;
   src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 @font-face {
   font-family: 'Oxygen Mono';
@@ -186,7 +186,8 @@ for building media applications using LOC and MOQT.
   font-weight: 400;
   font-display: swap;
   src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 }
 
 @font-face {
@@ -578,6 +579,7 @@ aside, blockquote {
 }
 blockquote {
   margin: 1em 0;
+  border-left: 2px var(--pilcrow-strong) solid;
 }
 cite {
   display: block;
@@ -648,7 +650,7 @@ a.pilcrow {
   }
 }
 @media not print {
-  :hover > a.pilcrow {
+  :hover > a.pilcrow, a.pilcrow:focus {
     opacity: 1;
   }
   a.pilcrow[href]:hover {
@@ -1056,11 +1058,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">media-container</td>
-<td class="right">July 2025</td>
+<td class="right">March 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Zanaty, et al.</td>
-<td class="center">Expires 8 January 2026</td>
+<td class="center">Expires 4 September 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1073,12 +1075,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-moq-loc-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-07-07" class="published">7 July 2025</time>
+<time datetime="2026-03-03" class="published">3 March 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-01-08">8 January 2026</time></dd>
+<dd class="expires"><time datetime="2026-09-04">4 September 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1102,8 +1104,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <p id="section-abstract-1">This specification describes a Low Overhead Media Container (LOC) format for
 encoded and encrypted audio and video media data to be used
 primarily for interactive Media over QUIC Transport (MOQT).
-It may be used in the WARP streaming specification, which defines a catalog format
-for publishers to annouce and describe their LOC tracks and for
+It may be used in the MOQT Streaming Format (MSF) specification,
+which defines a catalog format
+for publishers to declare and describe their LOC tracks and for
 subscribers to consume them. Examples are also provided
 for building media applications using LOC and MOQT.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
@@ -1142,7 +1145,7 @@ for building media applications using LOC and MOQT.<a href="#section-abstract-1"
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 8 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 4 September 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1151,7 +1154,7 @@ for building media applications using LOC and MOQT.<a href="#section-abstract-1"
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2025 IETF Trust and the persons identified as the
+            Copyright (c) 2026 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1206,10 +1209,10 @@ for building media applications using LOC and MOQT.<a href="#section-abstract-1"
                 <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="auto internal xref">2.2</a>.  <a href="#name-moq-object-mapping" class="internal xref">MOQ Object Mapping</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.3">
-                <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="auto internal xref">2.3</a>.  <a href="#name-loc-header-extensions" class="internal xref">LOC Header Extensions</a></p>
+                <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="auto internal xref">2.3</a>.  <a href="#name-loc-properties" class="internal xref">LOC Properties</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.3.2.1">
-                    <p id="section-toc.1-1.2.2.3.2.1.1"><a href="#section-2.3.1" class="auto internal xref">2.3.1</a>.  <a href="#name-common-header-data" class="internal xref">Common Header Data</a></p>
+                    <p id="section-toc.1-1.2.2.3.2.1.1"><a href="#section-2.3.1" class="auto internal xref">2.3.1</a>.  <a href="#name-common-properties" class="internal xref">Common Properties</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.3.2.2">
                     <p id="section-toc.1-1.2.2.3.2.2.1"><a href="#section-2.3.2" class="auto internal xref">2.3.2</a>.  <a href="#name-video-header-data" class="internal xref">Video Header Data</a></p>
@@ -1223,6 +1226,28 @@ for building media applications using LOC and MOQT.<a href="#section-abstract-1"
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-payload-encryption" class="internal xref">Payload Encryption</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-secure-objects-integration" class="internal xref">Secure Objects Integration</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.1">
+                    <p id="section-toc.1-1.3.2.1.2.1.1"><a href="#section-3.1.1" class="auto internal xref">3.1.1</a>.  <a href="#name-key-identification" class="internal xref">Key Identification</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.2">
+                    <p id="section-toc.1-1.3.2.1.2.2.1"><a href="#section-3.1.2" class="auto internal xref">3.1.2</a>.  <a href="#name-immutable-properties" class="internal xref">Immutable Properties</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.3">
+                    <p id="section-toc.1-1.3.2.1.2.3.1"><a href="#section-3.1.3" class="auto internal xref">3.1.3</a>.  <a href="#name-private-properties-for-sens" class="internal xref">Private Properties for Sensitive Metadata</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.4">
+                    <p id="section-toc.1-1.3.2.1.2.4.1"><a href="#section-3.1.4" class="auto internal xref">3.1.4</a>.  <a href="#name-cipher-suite-requirements" class="internal xref">Cipher Suite Requirements</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.5">
+                    <p id="section-toc.1-1.3.2.1.2.5.1"><a href="#section-3.1.5" class="auto internal xref">3.1.5</a>.  <a href="#name-aad-construction" class="internal xref">AAD Construction</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
@@ -1249,9 +1274,31 @@ for building media applications using LOC and MOQT.<a href="#section-abstract-1"
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
             <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-security-and-privacy-consid" class="internal xref">Security and Privacy Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-protecting-sensitive-metada" class="internal xref">Protecting Sensitive Metadata</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-immutable-property-consider" class="internal xref">Immutable Property Considerations</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
+                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-relay-trust-model" class="internal xref">Relay Trust Model</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4">
+                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-deletion-detection" class="internal xref">Deletion Detection</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
             <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-moq-properties-registry" class="internal xref">MOQ Properties Registry</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-moq-streaming-format-regist" class="internal xref">MoQ Streaming Format Registry</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
             <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-references" class="internal xref">References</a></p>
@@ -1287,8 +1334,7 @@ WebCodecs Codec Registry <span>[<a href="#WEBCODECS-CODEC-REGISTRY" class="cite 
 The audio and video payload bitstream is identical to the "internal data"
 inside an EncodedAudioChunk and EncodedVideoChunk, respectively, specified in the registry.<a href="#section-1-3" class="pilcrow">¶</a></p>
 <p id="section-1-4">(Note: Do we need to support timed text tracks such as Web Video Text Tracks (WebVTT) ?)<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5">In addition to the media payloads, critical metadata is also specified for audio and video payloads.
-(Note: Align with MOQT terminology of either "metadata" or "header".)<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-5">In addition to the media payloads, critical metadata called properties are also specified for audio and video payloads.<a href="#section-1-5" class="pilcrow">¶</a></p>
 <p id="section-1-6">A primary motivation is to align with media formats used in WebCodecs to minimize
 extra encapsulation and application overhead when interfacing with WebCodecs.
 Other container formats like CMAF or RTP would require
@@ -1304,7 +1350,7 @@ Codec Registry avoids duplicating it in an identical IANA registry.<a href="#sec
           <p id="section-1-8.1.1"><a href="#payload" class="auto internal xref">Section 2</a> defines the core media payload formats.<a href="#section-1-8.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-1-8.2">
-          <p id="section-1-8.2.1"><a href="#headers" class="auto internal xref">Section 2.3</a> defines the metadata associated with audio and video payloads.<a href="#section-1-8.2.1" class="pilcrow">¶</a></p>
+          <p id="section-1-8.2.1"><a href="#headers" class="auto internal xref">Section 2.3</a> defines the metadata, called properties, associated with audio and video payloads.<a href="#section-1-8.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-1-8.3">
           <p id="section-1-8.3.1"><a href="#encryption" class="auto internal xref">Section 3</a> defines the usage of end-to-end encrypted LOC payloads.<a href="#section-1-8.3.1" class="pilcrow">¶</a></p>
@@ -1366,7 +1412,7 @@ of each codec without any encapsulation.<a href="#section-2-1" class="pilcrow">�
           <h4 id="name-parameter-sets-in-headers">
 <a href="#section-2.1.2" class="section-number selfRef">2.1.2. </a><a href="#name-parameter-sets-in-headers" class="section-name selfRef">Parameter Sets in Headers</a>
           </h4>
-<p id="section-2.1.2-1">Parameter sets can be sent in headers before key frames, as described in the Config LOC Header Extension <a href="#config" class="auto internal xref">Section 2.3.2.1</a>, similar to the original "canonical" formats such as "avc1" and "hvc1" codec strings. The Config contents are the "extradata" bytes defined by the corresponding codec specification, which map to the WebCodecs VideoDecoderConfig description property in the EncodedVideoChunkMetadata.<a href="#section-2.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.1.2-1">Parameter sets can be sent in headers before key frames, as described in the Video Config LOC Property <a href="#config" class="auto internal xref">Section 2.3.2.1</a>, similar to the original "canonical" formats such as "avc1" and "hvc1" codec strings. The Video Config contents are the "extradata" bytes defined by the corresponding codec specification, which map to the WebCodecs VideoDecoderConfig description property in the EncodedVideoChunkMetadata.<a href="#section-2.1.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="length-prefixes-in-payload">
@@ -1374,7 +1420,7 @@ of each codec without any encapsulation.<a href="#section-2-1" class="pilcrow">�
           <h4 id="name-length-prefixes-in-payload">
 <a href="#section-2.1.3" class="section-number selfRef">2.1.3. </a><a href="#name-length-prefixes-in-payload" class="section-name selfRef">Length Prefixes in Payload</a>
           </h4>
-<p id="section-2.1.3-1">A 4-byte length prefix can be sent before each NAL Unit, similar to "canonical" ("avc" or "hevc") formats. A length value of 1 should be interpreted as a start code rather than a length. The length is in network byte order, i.e. big endian, and <span class="bcp14">SHOULD</span> be 4 bytes long to disambiguate from start code prefixes. A length prefix less than 4 bytes long, which is uncommon, <span class="bcp14">MAY</span> be specified in the Config <a href="#config" class="auto internal xref">Section 2.3.2.1</a>.<a href="#section-2.1.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.1.3-1">A 4-byte length prefix can be sent before each NAL Unit, similar to "canonical" ("avc" or "hevc") formats. A length value of 1 <span class="bcp14">SHOULD</span> be interpreted as a start code rather than a length. The length is in network byte order, i.e. big endian, and <span class="bcp14">SHOULD</span> be 4 bytes long to disambiguate from start code prefixes. A length prefix less than 4 bytes long, which is uncommon, <span class="bcp14">MAY</span> be specified in the Video Config <a href="#config" class="auto internal xref">Section 2.3.2.1</a>.<a href="#section-2.1.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="start-code-prefixes-in-payload">
@@ -1393,28 +1439,31 @@ of each codec without any encapsulation.<a href="#section-2-1" class="pilcrow">�
 <a href="#section-2.2" class="section-number selfRef">2.2. </a><a href="#name-moq-object-mapping" class="section-name selfRef">MOQ Object Mapping</a>
         </h3>
 <p id="section-2.2-1">An application object when transported as a <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> object is composed of
-a MOQ Object Header, with optional Extensions, and a Payload.
+a MOQ Object Header, with optional Properties, and a Payload.
 Media objects encoded using the container format defined in this
-specification populate the MOQ Object Payload with the LOC Payload, and
-the MOQ Object Header Extensions with the LOC Header Extensions, as shown below.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
+specification populate the MOQ Object Properties with the LOC Public Properties,
+and populate the MOQ Object Payload with LOC Private Properties
+followed by the LOC Payload, as shown below.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
 <p id="section-2.2-2">The LOC Payload is the "internal data" of an EncodedAudioChunk or EncodedVideoChunk.<a href="#section-2.2-2" class="pilcrow">¶</a></p>
-<p id="section-2.2-3">The LOC Header Extensions carry optional metadata related to the Payload.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
+<p id="section-2.2-3">The LOC Public and Private Properties carry optional metadata related to the Payload,
+where Public Properties are visible to relays while Private Properties can be encypted
+end to end wi<a href="#section-2.2-3" class="pilcrow">¶</a></p>
 <div class="alignLeft art-ascii-art art-text artwork" id="section-2.2-4">
 <pre>
 &lt;-----------  MOQ Object  ------------&gt;
 +----------+--------------+-----------+
 |   MOQ    |  MOQ Header  |    MOQ    |
-|  Header  |  Extensions  |  Payload  |
+|  Header  |  Properties  |  Payload  |
 +----------+--------------+-----------+
                   |             |
                   |             |
-           +--------------+-----------+
-           |  LOC Header  |    LOC    |
-           |  Extensions  |  Payload  |
-           +--------------+-----------+
+           +--------------+---------------------------+
+           |  LOC Public  |  LOC Private  |    LOC    |
+           |  Properties  |  Properties   |  Payload  |
+           +--------------+---------------+-----------+
 
-LOC Header Extensions = some MOQ Object Header Extensions
-LOC Payload = all MOQ Object Payload
+LOC Public Properties                = some MOQ Object Properties
+LOC Private Properties + LOC Payload = all  MOQ Object Payload
 LOC Payload = "internal data" of EncodedAudio/VideoChunk
 
 </pre><a href="#section-2.2-4" class="pilcrow">¶</a>
@@ -1423,21 +1472,23 @@ LOC Payload = "internal data" of EncodedAudio/VideoChunk
 </div>
 <div id="headers">
 <section id="section-2.3">
-        <h3 id="name-loc-header-extensions">
-<a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-loc-header-extensions" class="section-name selfRef">LOC Header Extensions</a>
+        <h3 id="name-loc-properties">
+<a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-loc-properties" class="section-name selfRef">LOC Properties</a>
         </h3>
-<p id="section-2.3-1">The LOC Header Extensions carry optional metadata for the corresponding LOC Payload.
-The LOC Header Extensions are contained within the MOQ Object Header Extensions.
+<p id="section-2.3-1">The LOC Public and Private Properties carry optional metadata for the corresponding LOC Payload.
+The LOC Public Properties are contained within the MOQ Object Properties.
 This metadata provides necessary information for
 end subscribers, relays and other intermediaries
 to perform their operations without accessing the media payload. For example,
 media switches can use this metadata to perform their media switching decisions
 without accessing the payload which may be encrypted end-to-end
-(from original publisher to end subscribers).<a href="#section-2.3-1" class="pilcrow">¶</a></p>
-<p id="section-2.3-2">The following sections define specific metadata as LOC Header Extensions and
-register them in the IANA registry for MOQ Object Header Extensions.<a href="#section-2.3-2" class="pilcrow">¶</a></p>
-<p id="section-2.3-3">Other specifications can define other metadata as LOC Header Extensions and
-register them in the same registry. Each extension must specify the following
+(from original publisher to end subscribers).
+The LOC Private Properties are contained within the MOQ Object Payload,
+and are not intended to be processed by relays.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.3-2">The following sections define specific metadata as LOC Public and Private Properties and
+register them in the IANA registry for MOQ Object Properties.<a href="#section-2.3-2" class="pilcrow">¶</a></p>
+<p id="section-2.3-3">Other specifications can define other metadata as LOC Public and Private Properties and
+register them in the same registry. Each property must specify the following
 information in the IANA registry.<a href="#section-2.3-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-2.3-4.1">
@@ -1447,41 +1498,75 @@ information in the IANA registry.<a href="#section-2.3-3" class="pilcrow">¶</a>
             <p id="section-2.3-4.2.1">Description: Detailed description (not sent on the wire)<a href="#section-2.3-4.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-2.3-4.3">
-            <p id="section-2.3-4.3.1">ID: Identifier assigned by the registry (varint)<a href="#section-2.3-4.3.1" class="pilcrow">¶</a></p>
+            <p id="section-2.3-4.3.1">ID: Identifier assigned by the registry (vi64)<a href="#section-2.3-4.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-2.3-4.4">
-            <p id="section-2.3-4.4.1">Length: Length of metadata Value in bytes (varint if ID is odd, omitted if ID is even)<a href="#section-2.3-4.4.1" class="pilcrow">¶</a></p>
+            <p id="section-2.3-4.4.1">Length: Length of metadata Value in bytes (vi64 if ID is odd, omitted if ID is even)<a href="#section-2.3-4.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-2.3-4.5">
-            <p id="section-2.3-4.5.1">Value: Value of metadata (varint if ID is even, Length bytes if ID is odd)<a href="#section-2.3-4.5.1" class="pilcrow">¶</a></p>
+            <p id="section-2.3-4.5.1">Value: Value of metadata (vi64 if ID is even, Length bytes if ID is odd)<a href="#section-2.3-4.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<div id="common-header-data">
+<div id="common-properties">
 <section id="section-2.3.1">
-          <h4 id="name-common-header-data">
-<a href="#section-2.3.1" class="section-number selfRef">2.3.1. </a><a href="#name-common-header-data" class="section-name selfRef">Common Header Data</a>
+          <h4 id="name-common-properties">
+<a href="#section-2.3.1" class="section-number selfRef">2.3.1. </a><a href="#name-common-properties" class="section-name selfRef">Common Properties</a>
           </h4>
-<div id="capture-timestamp">
+<div id="timestamp">
 <section id="section-2.3.1.1">
-            <h5 id="name-capture-timestamp">
-<a href="#section-2.3.1.1" class="section-number selfRef">2.3.1.1. </a><a href="#name-capture-timestamp" class="section-name selfRef">Capture Timestamp</a>
+            <h5 id="name-timestamp">
+<a href="#section-2.3.1.1" class="section-number selfRef">2.3.1.1. </a><a href="#name-timestamp" class="section-name selfRef">Timestamp</a>
             </h5>
 <ul class="normal">
 <li class="normal" id="section-2.3.1.1-1.1">
-                <p id="section-2.3.1.1-1.1.1">Name: Capture Timestamp<a href="#section-2.3.1.1-1.1.1" class="pilcrow">¶</a></p>
+                <p id="section-2.3.1.1-1.1.1">Name: Timestamp<a href="#section-2.3.1.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-2.3.1.1-1.2">
-                <p id="section-2.3.1.1-1.2.1">Description: Wall-clock time in microseconds since the Unix epoch
-when the encoded media frame was captured, encoded as a varint.<a href="#section-2.3.1.1-1.2.1" class="pilcrow">¶</a></p>
+                <p id="section-2.3.1.1-1.2.1">Description: Timestamp of the encoded media frame encoded as vi64.
+The unit of the timestamp is determined by the Timescale property
+<a href="#timescale" class="auto internal xref">Section 2.3.1.2</a>. If no timescale property is present,
+the timestamp is interpreted as wall-clock time in microseconds since
+the Unix epoch.<a href="#section-2.3.1.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-2.3.1.1-1.3">
-                <p id="section-2.3.1.1-1.3.1">ID: 2 (IANA, please assign from the MOQ Header Extensions Registry)<a href="#section-2.3.1.1-1.3.1" class="pilcrow">¶</a></p>
+                <p id="section-2.3.1.1-1.3.1">ID: 0x06<a href="#section-2.3.1.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-2.3.1.1-1.4">
-                <p id="section-2.3.1.1-1.4.1">Length: Varies (1-8 bytes)<a href="#section-2.3.1.1-1.4.1" class="pilcrow">¶</a></p>
+                <p id="section-2.3.1.1-1.4.1">Length: Omitted (ID is even)<a href="#section-2.3.1.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-2.3.1.1-1.5">
-                <p id="section-2.3.1.1-1.5.1">Value: Varies<a href="#section-2.3.1.1-1.5.1" class="pilcrow">¶</a></p>
+                <p id="section-2.3.1.1-1.5.1">Value: vi64 (1-8 bytes)<a href="#section-2.3.1.1-1.5.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</section>
+</div>
+<div id="timescale">
+<section id="section-2.3.1.2">
+            <h5 id="name-timescale">
+<a href="#section-2.3.1.2" class="section-number selfRef">2.3.1.2. </a><a href="#name-timescale" class="section-name selfRef">Timescale</a>
+            </h5>
+<ul class="normal">
+<li class="normal" id="section-2.3.1.2-1.1">
+                <p id="section-2.3.1.2-1.1.1">Name: Timescale<a href="#section-2.3.1.2-1.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-2.3.1.2-1.2">
+                <p id="section-2.3.1.2-1.2.1">Description: The number of Timestamp units per second, encoded as vi64.
+This property defines the unit for interpreting timestamp values in the
+Timestamp property. Common values include 1000000 for microseconds,
+48000 for audio at 48kHz sample rate, 90000 for video at 90kHz clock rate.
+When this property is present, the Timestamp represents media time rather than
+wall-clock time. The epoch or anchor point for the timestamp is
+application-defined. If this property is not present, timestamps default
+to microseconds since Unix epoch.<a href="#section-2.3.1.2-1.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-2.3.1.2-1.3">
+                <p id="section-2.3.1.2-1.3.1">ID: 0x08<a href="#section-2.3.1.2-1.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-2.3.1.2-1.4">
+                <p id="section-2.3.1.2-1.4.1">Length: Omitted (ID is even)<a href="#section-2.3.1.2-1.4.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-2.3.1.2-1.5">
+                <p id="section-2.3.1.2-1.5.1">Value: vi64 (1-9 bytes)<a href="#section-2.3.1.2-1.5.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </section>
@@ -1503,10 +1588,12 @@ when the encoded media frame was captured, encoded as a varint.<a href="#section
                 <p id="section-2.3.2.1-1.1.1">Name: Video Config<a href="#section-2.3.2.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-2.3.2.1-1.2">
-                <p id="section-2.3.2.1-1.2.1">Description: Video codec configuration "extradata", as defined by the corresponding codec specification, which maps to the WebCodecs VideoDecoderConfig description property in the EncodedVideoChunkMetadata.<a href="#section-2.3.2.1-1.2.1" class="pilcrow">¶</a></p>
+                <p id="section-2.3.2.1-1.2.1">Description: Video codec configuration "extradata", as defined by the
+corresponding codec specification, which maps to the WebCodecs VideoDecoderConfig
+description property in the EncodedVideoChunkMetadata.<a href="#section-2.3.2.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-2.3.2.1-1.3">
-                <p id="section-2.3.2.1-1.3.1">ID: 13 (IANA, please assign from the MOQ Header Extensions Registry)<a href="#section-2.3.2.1-1.3.1" class="pilcrow">¶</a></p>
+                <p id="section-2.3.2.1-1.3.1">ID: 13 (IANA, please assign from the MOQ Properties Registry)<a href="#section-2.3.2.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-2.3.2.1-1.4">
                 <p id="section-2.3.2.1-1.4.1">Length: Varies<a href="#section-2.3.2.1-1.4.1" class="pilcrow">¶</a></p>
@@ -1530,10 +1617,10 @@ when the encoded media frame was captured, encoded as a varint.<a href="#section
                 <p id="section-2.3.2.2-1.2.1">Description: Flags for video frames which are independent, discardable, or
 base layer sync points, as well as temporal and spatial layer
 identification, as defined in <span>[<a href="#RFC9626" class="cite xref">RFC9626</a>]</span>, encoded in the least
-significant bits of a varint.<a href="#section-2.3.2.2-1.2.1" class="pilcrow">¶</a></p>
+significant bits of a vi64.<a href="#section-2.3.2.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-2.3.2.2-1.3">
-                <p id="section-2.3.2.2-1.3.1">ID: 4 (IANA, please assign from the MOQ Header Extensions Registry)<a href="#section-2.3.2.2-1.3.1" class="pilcrow">¶</a></p>
+                <p id="section-2.3.2.2-1.3.1">ID: 4 (IANA, please assign from the MOQ Properties Registry)<a href="#section-2.3.2.2-1.3.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-2.3.2.2-1.4">
                 <p id="section-2.3.2.2-1.4.1">Length: Varies (1-4 bytes)<a href="#section-2.3.2.2-1.4.1" class="pilcrow">¶</a></p>
@@ -1563,10 +1650,10 @@ significant bits of a varint.<a href="#section-2.3.2.2-1.2.1" class="pilcrow">¶
               <li class="normal" id="section-2.3.3.1-1.2">
                 <p id="section-2.3.3.1-1.2.1">Description: The magnitude of the audio level of the corresponding audio frame
 as well as a voice activity indicator as defined in section 3 of <span>[<a href="#RFC6464" class="cite xref">RFC6464</a>]</span>,
-encoded in the least significant 8 bits of a varint.<a href="#section-2.3.3.1-1.2.1" class="pilcrow">¶</a></p>
+encoded in the least significant 8 bits of a vi64.<a href="#section-2.3.3.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-2.3.3.1-1.3">
-                <p id="section-2.3.3.1-1.3.1">ID: 6 (IANA, please assign from the MOQ Header Extensions Registry)<a href="#section-2.3.3.1-1.3.1" class="pilcrow">¶</a></p>
+                <p id="section-2.3.3.1-1.3.1">ID: 6 (IANA, please assign from the MOQ Properties Registry)<a href="#section-2.3.3.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-2.3.3.1-1.4">
                 <p id="section-2.3.3.1-1.4.1">Length: Varies (1-2 bytes)<a href="#section-2.3.3.1-1.4.1" class="pilcrow">¶</a></p>
@@ -1591,6 +1678,117 @@ encoded in the least significant 8 bits of a varint.<a href="#section-2.3.3.1-1.
 <p id="section-3-1">When end to end encryption is supported, the encoded payload is encrypted
 with symmetric keys derived from key establishment mechanisms, such as <span>[<a href="#MOQ-MLS" class="cite xref">MOQ-MLS</a>]</span>,
 and the payload itself is protected using mechanisms defined in <span>[<a href="#SecureObjects" class="cite xref">SecureObjects</a>]</span>.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<div id="secure-objects-integration">
+<section id="section-3.1">
+        <h3 id="name-secure-objects-integration">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-secure-objects-integration" class="section-name selfRef">Secure Objects Integration</a>
+        </h3>
+<p id="section-3.1-1"><span>[<a href="#SecureObjects" class="cite xref">SecureObjects</a>]</span> defines a comprehensive framework for end-to-end encryption of
+MOQT objects. When using Secure Objects with LOC, the following considerations apply:<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<div id="key-identification">
+<section id="section-3.1.1">
+          <h4 id="name-key-identification">
+<a href="#section-3.1.1" class="section-number selfRef">3.1.1. </a><a href="#name-key-identification" class="section-name selfRef">Key Identification</a>
+          </h4>
+<p id="section-3.1.1-1">The Secure Object Key ID property (type 0x2 in <span>[<a href="#SecureObjects" class="cite xref">SecureObjects</a>]</span>) <span class="bcp14">MUST</span> be included
+as an immutable property to identify the keying material used for encryption.
+This property is authenticated but not encrypted, allowing relays to forward
+objects without decryption while ensuring subscribers can identify the correct
+decryption key.<a href="#section-3.1.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="immutable-properties">
+<section id="section-3.1.2">
+          <h4 id="name-immutable-properties">
+<a href="#section-3.1.2" class="section-number selfRef">3.1.2. </a><a href="#name-immutable-properties" class="section-name selfRef">Immutable Properties</a>
+          </h4>
+<p id="section-3.1.2-1">LOC Properties that should be immutable but visible to relays <span class="bcp14">SHOULD</span> be encoded
+as Immutable Properties as defined in <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> to ensure they cannot be
+modified by relays and are included in the authenticated associated data (AAD)
+during encryption. This specification does not define any Immutable Properties,
+but other specifications may define some for use with LOC.<a href="#section-3.1.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="private-properties">
+<section id="section-3.1.3">
+          <h4 id="name-private-properties-for-sens">
+<a href="#section-3.1.3" class="section-number selfRef">3.1.3. </a><a href="#name-private-properties-for-sens" class="section-name selfRef">Private Properties for Sensitive Metadata</a>
+          </h4>
+<p id="section-3.1.3-1">Some LOC metadata may be sensitive and should not be visible to relays.
+<span>[<a href="#SecureObjects" class="cite xref">SecureObjects</a>]</span> defines a Private properties mechanism (type 0xA) that allows
+metadata to be encrypted alongside the payload.<a href="#section-3.1.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.1.3-2">The following LOC properties <span class="bcp14">MAY</span> be carried as Private properties when end-to-end
+confidentiality is required:<a href="#section-3.1.3-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.1.3-3.1">
+              <p id="section-3.1.3-3.1.1">Timestamp and Timescale - reveals timing information about the source<a href="#section-3.1.3-3.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-3.1.3-3.2">
+              <p id="section-3.1.3-3.2.1">Audio Level - reveals voice activity and audio characteristics<a href="#section-3.1.3-3.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-3.1.3-3.3">
+              <p id="section-3.1.3-3.3.1">Video Frame Marking - reveals encoding structure details<a href="#section-3.1.3-3.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-3.1.3-3.4">
+              <p id="section-3.1.3-3.4.1">Video Config - reveals encoding configuration details<a href="#section-3.1.3-3.4.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-3.1.3-4">When using Private properties:<a href="#section-3.1.3-4" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-3.1.3-5">
+<li id="section-3.1.3-5.1">
+              <p id="section-3.1.3-5.1.1">The LOC property is encoded as a key-value pair within the Private
+properties payload<a href="#section-3.1.3-5.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li id="section-3.1.3-5.2">
+              <p id="section-3.1.3-5.2.1">The Private properties are concatenated with the media payload before
+encryption<a href="#section-3.1.3-5.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li id="section-3.1.3-5.3">
+              <p id="section-3.1.3-5.3.1">Upon decryption, the receiver extracts the Private properties and
+reconstructs the LOC metadata<a href="#section-3.1.3-5.3.1" class="pilcrow">¶</a></p>
+</li>
+          </ol>
+<p id="section-3.1.3-6">This approach allows sensitive metadata to remain confidential from relays
+while still being available to authorized end subscribers.<a href="#section-3.1.3-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="cipher-suite-requirements">
+<section id="section-3.1.4">
+          <h4 id="name-cipher-suite-requirements">
+<a href="#section-3.1.4" class="section-number selfRef">3.1.4. </a><a href="#name-cipher-suite-requirements" class="section-name selfRef">Cipher Suite Requirements</a>
+          </h4>
+<p id="section-3.1.4-1">Implementations using LOC with Secure Objects <span class="bcp14">MUST</span> support the
+AES_128_GCM_SHA256_128 cipher suite (0x0004). Other cipher suites defined
+in <span>[<a href="#SecureObjects" class="cite xref">SecureObjects</a>]</span> <span class="bcp14">MAY</span> be used based on application requirements for
+authentication tag size versus bandwidth overhead.<a href="#section-3.1.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="aad-construction">
+<section id="section-3.1.5">
+          <h4 id="name-aad-construction">
+<a href="#section-3.1.5" class="section-number selfRef">3.1.5. </a><a href="#name-aad-construction" class="section-name selfRef">AAD Construction</a>
+          </h4>
+<p id="section-3.1.5-1">The authenticated associated data (AAD) for AEAD encryption includes:<a href="#section-3.1.5-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.1.5-2.1">
+              <p id="section-3.1.5-2.1.1">Key ID<a href="#section-3.1.5-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-3.1.5-2.2">
+              <p id="section-3.1.5-2.2.1">Group ID and Object ID<a href="#section-3.1.5-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-3.1.5-2.3">
+              <p id="section-3.1.5-2.3.1">Track namespace and name<a href="#section-3.1.5-2.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-3.1.5-2.4">
+              <p id="section-3.1.5-2.4.1">Serialized immutable properties<a href="#section-3.1.5-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-3.1.5-3">This binding ensures objects cannot be replayed across different tracks
+or contexts.<a href="#section-3.1.5-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
 </section>
 </div>
 <div id="examples">
@@ -1602,7 +1800,7 @@ and the payload itself is protected using mechanisms defined in <span>[<a href="
 using MOQ and LOC; more specifically, it provides information on:<a href="#section-4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4-2.1">
-          <p id="section-4-2.1.1">Using a WARP catalog <span>[<a href="#MoQCatalog" class="cite xref">MoQCatalog</a>]</span> to describe track information,<a href="#section-4-2.1.1" class="pilcrow">¶</a></p>
+          <p id="section-4-2.1.1">Using a MSF catalog <span>[<a href="#MoQCatalog" class="cite xref">MoQCatalog</a>]</span> to describe track information,<a href="#section-4-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-4-2.2">
           <p id="section-4-2.2.1">Packaging media into LOC streaming format, and<a href="#section-4-2.2.1" class="pilcrow">¶</a></p>
@@ -1860,21 +2058,97 @@ corresponding video tracks.<a href="#section-4.6-4" class="pilcrow">¶</a></p>
       <h2 id="name-security-and-privacy-consid">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-security-and-privacy-consid" class="section-name selfRef">Security and Privacy Considerations</a>
       </h2>
-<p id="section-5-1">The metadata in LOC Header Extensions is visible to relays, since the
-MOQ Object Header Extensions are often not encrypted end-to-end
+<p id="section-5-1">The metadata in LOC Properties is visible to relays, since the
+MOQ Object Properties are often not encrypted end-to-end
 (from original publisher to end subscribers) in common schemes.
 In some cases, this may be an intentional design intent for proper relay
 operation. In other cases, this may be unintentional or undesirable leaking
 of the metadata to relays. Each metadata that is defined should consider
-the security and privacy aspects of granting relays visibility to the metadata.
-End-to-end encyption schemes should support end-to-end encryption of sensitive
-metadata.<a href="#section-5-1" class="pilcrow">¶</a></p>
-<p id="section-5-2">The metadata defined and registered in this specification
-(Capture Timestamp, Video Frame Marking, and Audio Level) may be sensitive
-metadata that should be encrypted end-to-end. They are used by media switches,
-which are not merely relays, and likely have access to some media keys.
-This may require end-to-end encryption schemes with multiple different
-security key contexts for payload versus metadata.<a href="#section-5-2" class="pilcrow">¶</a></p>
+the security and privacy aspects of granting relays visibility to the metadata.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<div id="protecting-sensitive-metadata">
+<section id="section-5.1">
+        <h3 id="name-protecting-sensitive-metada">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-protecting-sensitive-metada" class="section-name selfRef">Protecting Sensitive Metadata</a>
+        </h3>
+<p id="section-5.1-1">The metadata defined and registered in this specification
+(Timestamp, Timescale, Config, Video Frame Marking, and Audio Level) may be sensitive
+metadata that should be encrypted end-to-end. Applications requiring
+confidentiality of this metadata <span class="bcp14">SHOULD</span> use the Private properties mechanism
+described in <a href="#private-properties" class="auto internal xref">Section 3.1.3</a> to encrypt sensitive metadata alongside
+the payload.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1-2">When using <span>[<a href="#SecureObjects" class="cite xref">SecureObjects</a>]</span> for end-to-end encryption:<a href="#section-5.1-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.1-3.1">
+            <p id="section-5.1-3.1.1">Sensitive metadata (timestamps, audio levels, frame marking) can be
+encrypted using Private properties<a href="#section-5.1-3.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.1-3.2">
+            <p id="section-5.1-3.2.1">Immutable properties are authenticated but visible to relays<a href="#section-5.1-3.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.1-3.3">
+            <p id="section-5.1-3.3.1">Media switches that need metadata access require appropriate key material<a href="#section-5.1-3.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="immutable-property-considerations">
+<section id="section-5.2">
+        <h3 id="name-immutable-property-consider">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-immutable-property-consider" class="section-name selfRef">Immutable Property Considerations</a>
+        </h3>
+<p id="section-5.2-1">Properties marked as immutable via the IMMUTABLE_PROPERTIES mechanism in
+<span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> provide integrity protection - relays cannot modify these
+values without detection. However, immutable properties are NOT encrypted
+and remain visible to relays. Applications must carefully consider which
+properties require:<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.2-2.1">
+            <p id="section-5.2-2.1.1">Confidentiality (use Private properties)<a href="#section-5.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.2-2.2">
+            <p id="section-5.2-2.2.1">Integrity without confidentiality (use Immutable properties)<a href="#section-5.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.2-2.3">
+            <p id="section-5.2-2.3.1">Neither (standard mutable properties suitable for relay operation)<a href="#section-5.2-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="relay-trust-model">
+<section id="section-5.3">
+        <h3 id="name-relay-trust-model">
+<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-relay-trust-model" class="section-name selfRef">Relay Trust Model</a>
+        </h3>
+<p id="section-5.3-1">Different deployment scenarios have different trust models for relays:<a href="#section-5.3-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3-2.1">
+            <p id="section-5.3-2.1.1">Untrusted relays: Use Private properties for all sensitive metadata<a href="#section-5.3-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-2.2">
+            <p id="section-5.3-2.2.1">Semi-trusted relays (media switches): May have access to metadata keys
+but not payload keys, enabling switching decisions without content access<a href="#section-5.3-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-2.3">
+            <p id="section-5.3-2.3.1">Trusted relays: May have full key access for transcoding or processing<a href="#section-5.3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-5.3-3">Applications should select the appropriate protection mechanisms based on
+their relay trust model and privacy requirements.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="deletion-detection">
+<section id="section-5.4">
+        <h3 id="name-deletion-detection">
+<a href="#section-5.4" class="section-number selfRef">5.4. </a><a href="#name-deletion-detection" class="section-name selfRef">Deletion Detection</a>
+        </h3>
+<p id="section-5.4-1">When using end-to-end encryption, relays cannot modify encrypted payloads
+but could selectively delete or withhold objects. <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> defines
+PRIOR_GROUP_ID_GAP and PRIOR_OBJECT_ID_GAP properties that publishers can
+include to indicate intentional gaps in sequences. Subscribers can use these
+to distinguish between publisher-intended gaps and potential relay deletion.
+<span>[<a href="#SecureObjects" class="cite xref">SecureObjects</a>]</span> provides additional mechanisms for detecting such attacks.<a href="#section-5.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="iana">
@@ -1882,9 +2156,54 @@ security key contexts for payload versus metadata.<a href="#section-5-2" class="
       <h2 id="name-iana-considerations">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-6-1">The IANA registry for MOQ Object Header Extensions is populated with
-the entries specified in section <a href="#headers" class="auto internal xref">Section 2.3</a>, referencing this specification.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">This document creates a new entry in the "MoQ Streaming Format" Registry (see <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Sect 8). The type value is 0x002, the name is "LOC Streaming Format" and the RFC is XXX.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<div id="moq-properties-registry">
+<section id="section-6.1">
+        <h3 id="name-moq-properties-registry">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-moq-properties-registry" class="section-name selfRef">MOQ Properties Registry</a>
+        </h3>
+<p id="section-6.1-1">This document registers the following entries in the "MOQ property Headers"
+registry established by <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span>:<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<table class="center" id="table-1">
+          <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Type</th>
+              <th class="text-left" rowspan="1" colspan="1">Name</th>
+              <th class="text-left" rowspan="1" colspan="1">Scope</th>
+              <th class="text-left" rowspan="1" colspan="1">Specification</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">0x06</td>
+              <td class="text-left" rowspan="1" colspan="1">TIMESTAMP</td>
+              <td class="text-left" rowspan="1" colspan="1">Object</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <a href="#timestamp" class="auto internal xref">Section 2.3.1.1</a>
+</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">0x08</td>
+              <td class="text-left" rowspan="1" colspan="1">TIMESCALE</td>
+              <td class="text-left" rowspan="1" colspan="1">Track or Object</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <a href="#timescale" class="auto internal xref">Section 2.3.1.2</a>
+</td>
+            </tr>
+          </tbody>
+        </table>
+</section>
+</div>
+<div id="moq-streaming-format-registry">
+<section id="section-6.2">
+        <h3 id="name-moq-streaming-format-regist">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-moq-streaming-format-regist" class="section-name selfRef">MoQ Streaming Format Registry</a>
+        </h3>
+<p id="section-6.2-1">This document creates a new entry in the "MoQ Streaming Format" Registry
+(see <span>[<a href="#MoQTransport" class="cite xref">MoQTransport</a>]</span> Sect 8). The type value is 0x002, the name is
+"LOC Streaming Format" and the RFC is XXX.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="sec-combined-references">
@@ -1900,7 +2219,7 @@ the entries specified in section <a href="#headers" class="auto internal xref">S
 <dl class="references">
 <dt id="MoQTransport">[MoQTransport]</dt>
         <dd>
-<span class="refAuthor">Nandakumar, S.</span>, <span class="refAuthor">Vasiliev, V.</span>, <span class="refAuthor">Swett, I.</span>, and <span class="refAuthor">A. Frindell</span>, <span class="refTitle">"Media over QUIC Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-moq-transport-12</span>, <time datetime="2025-06-23" class="refDate">23 June 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-moq-transport-12">https://datatracker.ietf.org/doc/html/draft-ietf-moq-transport-12</a>&gt;</span>. </dd>
+<span class="refAuthor">Nandakumar, S.</span>, <span class="refAuthor">Vasiliev, V.</span>, <span class="refAuthor">Swett, I.</span>, and <span class="refAuthor">A. Frindell</span>, <span class="refTitle">"Media over QUIC Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-moq-transport-17</span>, <time datetime="2026-03-02" class="refDate">2 March 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-moq-transport-17">https://datatracker.ietf.org/doc/html/draft-ietf-moq-transport-17</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="WebCodecs">[WebCodecs]</dt>
         <dd>
@@ -1937,11 +2256,11 @@ the entries specified in section <a href="#headers" class="auto internal xref">S
 <dl class="references">
 <dt id="MoQCatalog">[MoQCatalog]</dt>
         <dd>
-<span class="refAuthor">Law, W.</span>, <span class="refAuthor">Curley, L.</span>, <span class="refAuthor">Vasiliev, V.</span>, <span class="refAuthor">Nandakumar, S.</span>, and <span class="refAuthor">K. Pugin</span>, <span class="refTitle">"WARP Streaming Format"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-moq-warp-00</span>, <time datetime="2025-03-16" class="refDate">16 March 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-moq-warp-00">https://datatracker.ietf.org/doc/html/draft-ietf-moq-warp-00</a>&gt;</span>. </dd>
+<span class="refAuthor">Law, W.</span>, <span class="refTitle">"MOQT Streaming Format"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-moq-msf-00</span>, <time datetime="2026-01-19" class="refDate">19 January 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-moq-msf-00">https://datatracker.ietf.org/doc/html/draft-ietf-moq-msf-00</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="SecureObjects">[SecureObjects]</dt>
         <dd>
-<span class="refAuthor">Jennings, C. F.</span>, <span class="refAuthor">Nandakumar, S.</span>, and <span class="refAuthor">R. Barnes</span>, <span class="refTitle">"End-to-End Secure Objects for Media over QUIC Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-jennings-moq-secure-objects-02</span>, <time datetime="2025-02-28" class="refDate">28 February 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-jennings-moq-secure-objects-02">https://datatracker.ietf.org/doc/html/draft-jennings-moq-secure-objects-02</a>&gt;</span>. </dd>
+<span class="refAuthor">Jennings, C. F.</span>, <span class="refAuthor">Nandakumar, S.</span>, and <span class="refAuthor">R. Barnes</span>, <span class="refTitle">"End-to-End Secure Objects for Media over QUIC Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-jennings-moq-secure-objects-04</span>, <time datetime="2026-02-08" class="refDate">8 February 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-jennings-moq-secure-objects-04">https://datatracker.ietf.org/doc/html/draft-jennings-moq-secure-objects-04</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="MOQ-MLS">[MOQ-MLS]</dt>
       <dd>
