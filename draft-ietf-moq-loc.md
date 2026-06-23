@@ -213,7 +213,7 @@ The unit of the timestamp is determined by the Timescale property
 {{timescale}}. If no timescale property is present,
 the timestamp is interpreted as wall-clock time in microseconds since
 the Unix epoch.
-* ID: 0x06
+* ID: 0x10
 * Length: Omitted (ID is even)
 * Value: vi64 (1-8 bytes)
 
@@ -657,7 +657,7 @@ registry established by {{MoQTransport}}:
 
 | Type | Name              | Scope  | Specification           |
 |:-----|:------------------|:-------|:------------------------|
-| 0x06 | TIMESTAMP         | Object | {{timestamp}}           |
+| 0x10 | TIMESTAMP         | Object | {{timestamp}}           |
 | 0x08 | TIMESCALE         | Track or Object | {{timescale}}  |
 
 ## MoQ Streaming Format Registry
