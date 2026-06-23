@@ -155,7 +155,7 @@ The LOC Payload is the "internal data" of an EncodedAudioChunk or EncodedVideoCh
 
 The LOC Public and Private Properties carry optional metadata related to the Payload,
 where Public Properties are visible to relays while Private Properties can be encypted
-end to end wi
+end to end with the Payload.
 
 ~~~ ascii-art
 
