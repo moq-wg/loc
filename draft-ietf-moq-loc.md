@@ -48,7 +48,7 @@ normative:
 
 informative:
   MoQCatalog: I-D.ietf-moq-msf
-  SecureObjects: I-D.jennings-moq-secure-objects
+  SecureObjects: I-D.ietf-moq-secure-objects
   MOQ-MLS: I-D.jennings-moq-e2ee-mls
 
 
@@ -132,15 +132,15 @@ Parameter sets can be sent in the bitstream payload before key frames, similar t
 
 ### Parameter Sets in Headers
 
-Parameter sets can be sent in headers before key frames, as described in the Video Config LOC Property {{config}}, similar to the original "canonical" formats such as "avc1" and "hvc1" codec strings. The Video Config contents are the "extradata" bytes defined by the corresponding codec specification, which map to the WebCodecs VideoDecoderConfig description property in the EncodedVideoChunkMetadata.
+Parameter sets can be sent in headers before key frames, as described in the Video Config LOC Property {{vconfig}}, similar to the original "canonical" formats such as "avc1" and "hvc1" codec strings. The Video Config contents are the "extradata" bytes defined by the corresponding codec specification, which map to the WebCodecs VideoDecoderConfig description property in the EncodedVideoChunkMetadata.
 
 ### Length Prefixes in Payload
 
-A 4-byte length prefix can be sent before each NAL Unit, similar to "canonical" ("avc" or "hevc") formats. A length value of 1 SHOULD be interpreted as a start code rather than a length. The length is in network byte order, i.e. big endian, and SHOULD be 4 bytes long to disambiguate from start code prefixes. A length prefix less than 4 bytes long, which is uncommon, MAY be specified in the Video Config {{config}}.
+A 4-byte length prefix can be sent before each NAL Unit, similar to "canonical" ("avc" or "hevc") formats. A length value of 1 SHOULD be interpreted as a start code rather than a length. The length is in network byte order, i.e. big endian, and SHOULD be 4 bytes long to disambiguate from start code prefixes. A length prefix less than 4 bytes long, which is uncommon, MAY be specified in the Video Config {{vconfig}}.
 
 ### Start Code Prefixes in Payload
 
-A 4-byte start code can be sent before each NAL Unit, similar to "annexB" formats. The start code value is 1 in network byte order, i.e. big endian, and SHOULD be 4 bytes long to disambiguate from length prefixes. A 3-byte start code, which is uncommon, MAY be used if the track never uses length prefixes or any Config {{config}}.
+A 4-byte start code can be sent before each NAL Unit, similar to "annexB" formats. The start code value is 1 in network byte order, i.e. big endian, and SHOULD be 4 bytes long to disambiguate from length prefixes. A 3-byte start code, which is uncommon, MAY be used if the track never uses length prefixes or any Video Config {{vconfig}}.
 
 ## MOQ Object Mapping
 
@@ -213,9 +213,9 @@ The unit of the timestamp is determined by the Timescale property
 {{timescale}}. If no timescale property is present,
 the timestamp is interpreted as wall-clock time in microseconds since
 the Unix epoch.
-* ID: 0x06
+* ID: 0x0A
 * Length: Omitted (ID is even)
-* Value: vi64 (1-8 bytes)
+* Value: vi64 (1-9 bytes)
 
 #### Timescale
 
@@ -232,15 +232,15 @@ to microseconds since Unix epoch.
 * Length: Omitted (ID is even)
 * Value: vi64 (1-9 bytes)
 
-### Video Header Data
+### Video Properties
 
-#### Video Config {#config}
+#### Video Config {#vconfig}
 
 * Name: Video Config
 * Description: Video codec configuration "extradata", as defined by the
 corresponding codec specification, which maps to the WebCodecs VideoDecoderConfig
 description property in the EncodedVideoChunkMetadata.
-* ID: 13 (IANA, please assign from the MOQ Properties Registry)
+* ID: 0x0D (IANA, please assign from the MOQ Properties Registry)
 * Length: Varies
 * Value: Varies
 
@@ -249,13 +249,22 @@ description property in the EncodedVideoChunkMetadata.
 * Name: Video Frame Marking
 * Description: Flags for video frames which are independent, discardable, or
 base layer sync points, as well as temporal and spatial layer
-identification, as defined in {{!RFC9626}}, encoded in the least
-significant bits of a vi64.
-* ID: 4 (IANA, please assign from the MOQ Properties Registry)
+identification, as defined in {{!RFC9626}}, encoded with a length prefix.
+* ID: 0x09 (IANA, please assign from the MOQ Properties Registry)
 * Length: Varies (1-4 bytes)
 * Value: Varies
 
-### Audio Header Data
+### Audio Properties
+
+#### Audio Config {#aconfig}
+
+* Name: Audio Config
+* Description: Audio codec configuration, as defined by the
+corresponding codec specification, which maps to the WebCodecs AudioDecoderConfig
+description property in the EncodedAudioChunkMetadata.
+* ID: 0x0F (IANA, please assign from the MOQ Properties Registry)
+* Length: Varies
+* Value: Varies
 
 #### Audio Level
 
@@ -263,9 +272,9 @@ significant bits of a vi64.
 * Description: The magnitude of the audio level of the corresponding audio frame
 as well as a voice activity indicator as defined in section 3 of {{!RFC6464}},
 encoded in the least significant 8 bits of a vi64.
-* ID: 6 (IANA, please assign from the MOQ Properties Registry)
-* Length: Varies (1-2 bytes)
-* Value: Varies
+* ID: 0x0C (IANA, please assign from the MOQ Properties Registry)
+* Length: Omitted (ID is even)
+* Value: vi64 (1-2 bytes to encode values 0x00-0xFF)
 
 # Payload Encryption {#encryption}
 
@@ -670,4 +679,4 @@ This document creates a new entry in the "MoQ Streaming Format" Registry
 
 # Acknowledgements {#Acknowledgements}
 
-Thanks to Cullen Jennings for suggestions and review.
+Thanks to Cullen Jennings, Luke Curley, Upendra Sharma, and Yu You for suggestions and review.
