@@ -85,8 +85,8 @@ Table of Contents
      2.2.  MOQ Object Mapping
      2.3.  LOC Properties
        2.3.1.  Common Properties
-       2.3.2.  Video Header Data
-       2.3.3.  Audio Header Data
+       2.3.2.  Video Properties
+       2.3.3.  Audio Properties
    3.  Payload Encryption
      3.1.  Secure Objects Integration
        3.1.1.  Key Identification
@@ -229,7 +229,7 @@ Table of Contents
    "annexB" formats.  The start code value is 1 in network byte order,
    i.e. big endian, and SHOULD be 4 bytes long to disambiguate from
    length prefixes.  A 3-byte start code, which is uncommon, MAY be used
-   if the track never uses length prefixes or any Config
+   if the track never uses length prefixes or any Video Config
    Section 2.3.2.1.
 
 2.2.  MOQ Object Mapping
@@ -309,11 +309,11 @@ Table of Contents
       timestamp is interpreted as wall-clock time in microseconds since
       the Unix epoch.
 
-   *  ID: 0x06
+   *  ID: 0x0A
 
    *  Length: Omitted (ID is even)
 
-   *  Value: vi64 (1-8 bytes)
+   *  Value: vi64 (1-9 bytes)
 
 2.3.1.2.  Timescale
 
@@ -335,7 +335,7 @@ Table of Contents
 
    *  Value: vi64 (1-9 bytes)
 
-2.3.2.  Video Header Data
+2.3.2.  Video Properties
 
 2.3.2.1.  Video Config
 
@@ -346,7 +346,7 @@ Table of Contents
       VideoDecoderConfig description property in the
       EncodedVideoChunkMetadata.
 
-   *  ID: 13 (IANA, please assign from the MOQ Properties Registry)
+   *  ID: 0x0D (IANA, please assign from the MOQ Properties Registry)
 
    *  Length: Varies
 
@@ -358,18 +358,33 @@ Table of Contents
 
    *  Description: Flags for video frames which are independent,
       discardable, or base layer sync points, as well as temporal and
-      spatial layer identification, as defined in [RFC9626], encoded in
-      the least significant bits of a vi64.
+      spatial layer identification, as defined in [RFC9626], encoded
+      with a length prefix.
 
-   *  ID: 4 (IANA, please assign from the MOQ Properties Registry)
+   *  ID: 0x09 (IANA, please assign from the MOQ Properties Registry)
 
    *  Length: Varies (1-4 bytes)
 
    *  Value: Varies
 
-2.3.3.  Audio Header Data
+2.3.3.  Audio Properties
 
-2.3.3.1.  Audio Level
+2.3.3.1.  Audio Config
+
+   *  Name: Audio Config
+
+   *  Description: Audio codec configuration, as defined by the
+      corresponding codec specification, which maps to the WebCodecs
+      AudioDecoderConfig description property in the
+      EncodedAudioChunkMetadata.
+
+   *  ID: 0x0F (IANA, please assign from the MOQ Properties Registry)
+
+   *  Length: Varies
+
+   *  Value: Varies
+
+2.3.3.2.  Audio Level
 
    *  Name: Audio Level
 
@@ -378,11 +393,11 @@ Table of Contents
       section 3 of [RFC6464], encoded in the least significant 8 bits of
       a vi64.
 
-   *  ID: 6 (IANA, please assign from the MOQ Properties Registry)
+   *  ID: 0x0C (IANA, please assign from the MOQ Properties Registry)
 
-   *  Length: Varies (1-2 bytes)
+   *  Length: Omitted (ID is even)
 
-   *  Value: Varies
+   *  Value: vi64 (1-2 bytes to encode values 0x00-0xFF)
 
 3.  Payload Encryption
 
@@ -833,10 +848,9 @@ Table of Contents
    [SecureObjects]
               Jennings, C. F., Nandakumar, S., and R. Barnes, "End-to-
               End Secure Objects for Media over QUIC Transport", Work in
-              Progress, Internet-Draft, draft-jennings-moq-secure-
-              objects-04, 8 February 2026,
-              <https://datatracker.ietf.org/doc/html/draft-jennings-moq-
-              secure-objects-04>.
+              Progress, Internet-Draft, draft-ietf-moq-secure-objects-
+              00, 2 March 2026, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-moq-secure-objects-00>.
 
    [MOQ-MLS]  Jennings, C. F., Nandakumar, S., and R. Barnes, "End-to-
               end Security for Media over QUIC", Work in Progress,
@@ -846,7 +860,8 @@ Table of Contents
 
 Appendix A.  Acknowledgements
 
-   Thanks to Cullen Jennings for suggestions and review.
+   Thanks to Cullen Jennings, Luke Curley, Upendra Sharma, and Yu You
+   for suggestions and review.
 
 Authors' Addresses
 
