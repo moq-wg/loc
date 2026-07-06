@@ -5,9 +5,9 @@
 Media Over QUIC                                                M. Zanaty
 Internet-Draft                                             S. Nandakumar
 Intended status: Standards Track                                   Cisco
-Expires: 4 September 2026                                    P. Thatcher
+Expires: 7 January 2027                                      P. Thatcher
                                                                Microsoft
-                                                            3 March 2026
+                                                             6 July 2026
 
 
                       Low Overhead Media Container
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 September 2026.
+   This Internet-Draft will expire on 7 January 2027.
 
 Copyright Notice
 
@@ -246,7 +246,7 @@ Table of Contents
 
    The LOC Public and Private Properties carry optional metadata related
    to the Payload, where Public Properties are visible to relays while
-   Private Properties can be encypted end to end wi
+   Private Properties can be encypted end to end with the Payload.
 
    <-----------  MOQ Object  ------------>
    +----------+--------------+-----------+
@@ -790,9 +790,9 @@ Table of Contents
    [MoQTransport]
               Nandakumar, S., Vasiliev, V., Swett, I., and A. Frindell,
               "Media over QUIC Transport", Work in Progress, Internet-
-              Draft, draft-ietf-moq-transport-17, 2 March 2026,
+              Draft, draft-ietf-moq-transport-18, 12 May 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-moq-
-              transport-17>.
+              transport-18>.
 
    [WebCodecs]
               "WebCodecs", July 2023,
@@ -825,10 +825,10 @@ Table of Contents
 7.2.  Informative References
 
    [MoQCatalog]
-              Law, W., "MOQT Streaming Format", Work in Progress,
-              Internet-Draft, draft-ietf-moq-msf-00, 19 January 2026,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-moq-msf-
-              00>.
+              Law, W. and S. Nandakumar, "MOQT Streaming Format", Work
+              in Progress, Internet-Draft, draft-ietf-moq-msf-01, 2 June
+              2026, <https://datatracker.ietf.org/doc/html/draft-ietf-
+              moq-msf-01>.
 
    [SecureObjects]
               Jennings, C. F., Nandakumar, S., and R. Barnes, "End-to-
