@@ -666,7 +666,7 @@ registry established by {{MoQTransport}}:
 
 | Type | Name              | Scope  | Specification           |
 |:-----|:------------------|:-------|:------------------------|
-| 0x06 | TIMESTAMP         | Object | {{timestamp}}           |
+| 0x0A | TIMESTAMP         | Object | {{timestamp}}           |
 | 0x08 | TIMESCALE         | Track or Object | {{timescale}}  |
 
 ## MoQ Streaming Format Registry
