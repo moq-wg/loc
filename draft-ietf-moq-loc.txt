@@ -5,9 +5,9 @@
 Media Over QUIC                                                M. Zanaty
 Internet-Draft                                             S. Nandakumar
 Intended status: Standards Track                                   Cisco
-Expires: 7 January 2027                                      P. Thatcher
+Expires: 20 January 2027                                     P. Thatcher
                                                                Microsoft
-                                                             6 July 2026
+                                                            19 July 2026
 
 
                       Low Overhead Media Container
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 January 2027.
+   This Internet-Draft will expire on 20 January 2027.
 
 Copyright Notice
 
@@ -785,7 +785,7 @@ Table of Contents
          +======+===========+=================+=================+
          | Type | Name      | Scope           | Specification   |
          +======+===========+=================+=================+
-         | 0x06 | TIMESTAMP | Object          | Section 2.3.1.1 |
+         | 0x0A | TIMESTAMP | Object          | Section 2.3.1.1 |
          +------+-----------+-----------------+-----------------+
          | 0x08 | TIMESCALE | Track or Object | Section 2.3.1.2 |
          +------+-----------+-----------------+-----------------+
@@ -805,9 +805,9 @@ Table of Contents
    [MoQTransport]
               Nandakumar, S., Vasiliev, V., Swett, I., and A. Frindell,
               "Media over QUIC Transport", Work in Progress, Internet-
-              Draft, draft-ietf-moq-transport-18, 12 May 2026,
+              Draft, draft-ietf-moq-transport-19, 6 July 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-moq-
-              transport-18>.
+              transport-19>.
 
    [WebCodecs]
               "WebCodecs", July 2023,
@@ -849,8 +849,8 @@ Table of Contents
               Jennings, C. F., Nandakumar, S., and R. Barnes, "End-to-
               End Secure Objects for Media over QUIC Transport", Work in
               Progress, Internet-Draft, draft-ietf-moq-secure-objects-
-              00, 2 March 2026, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-moq-secure-objects-00>.
+              01, 6 July 2026, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-moq-secure-objects-01>.
 
    [MOQ-MLS]  Jennings, C. F., Nandakumar, S., and R. Barnes, "End-to-
               end Security for Media over QUIC", Work in Progress,
