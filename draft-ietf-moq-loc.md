@@ -191,7 +191,7 @@ The LOC Private Properties are contained within the MOQ Object Payload,
 and are not intended to be processed by relays.
 
 The following sections define specific metadata as LOC Public and Private Properties and
-register them in the IANA registry for MOQ Object Properties.
+register them in the IANA registry for MOQ Properties.
 
 Other specifications can define other metadata as LOC Public and Private Properties and
 register them in the same registry. Each property must specify the following
@@ -213,7 +213,7 @@ The unit of the timestamp is determined by the Timescale property
 {{timescale}}. If no timescale property is present,
 the timestamp is interpreted as wall-clock time in microseconds since
 the Unix epoch.
-* ID: 0x0A
+* ID: 0x10
 * Length: Omitted (ID is even)
 * Value: vi64 (1-9 bytes)
 
@@ -240,7 +240,7 @@ to microseconds since Unix epoch.
 * Description: Video codec configuration "extradata", as defined by the
 corresponding codec specification, which maps to the WebCodecs VideoDecoderConfig
 description property in the EncodedVideoChunkMetadata.
-* ID: 0x0D (IANA, please assign from the MOQ Properties Registry)
+* ID: 0x0D
 * Length: Varies
 * Value: Varies
 
@@ -250,7 +250,7 @@ description property in the EncodedVideoChunkMetadata.
 * Description: Flags for video frames which are independent, discardable, or
 base layer sync points, as well as temporal and spatial layer
 identification, as defined in {{!RFC9626}}, encoded with a length prefix.
-* ID: 0x09 (IANA, please assign from the MOQ Properties Registry)
+* ID: 0x09
 * Length: Varies (1-4 bytes)
 * Value: Varies
 
@@ -262,7 +262,7 @@ identification, as defined in {{!RFC9626}}, encoded with a length prefix.
 * Description: Audio codec configuration, as defined by the
 corresponding codec specification, which maps to the WebCodecs AudioDecoderConfig
 description property in the EncodedAudioChunkMetadata.
-* ID: 0x0F (IANA, please assign from the MOQ Properties Registry)
+* ID: 0x0F
 * Length: Varies
 * Value: Varies
 
@@ -272,7 +272,7 @@ description property in the EncodedAudioChunkMetadata.
 * Description: The magnitude of the audio level of the corresponding audio frame
 as well as a voice activity indicator as defined in section 3 of {{!RFC6464}},
 encoded in the least significant 8 bits of a vi64.
-* ID: 0x0C (IANA, please assign from the MOQ Properties Registry)
+* ID: 0x0C
 * Length: Omitted (ID is even)
 * Value: vi64 (1-2 bytes to encode values 0x00-0xFF)
 
@@ -661,19 +661,17 @@ to distinguish between publisher-intended gaps and potential relay deletion.
 
 ## MOQ Properties Registry
 
-This document registers the following entries in the "MOQ property Headers"
+This document registers the following entries in the MOQ Properties
 registry established by {{MoQTransport}}:
 
-| Type | Name              | Scope  | Specification           |
-|:-----|:------------------|:-------|:------------------------|
-| 0x0A | TIMESTAMP         | Object | {{timestamp}}           |
-| 0x08 | TIMESCALE         | Track or Object | {{timescale}}  |
-
-## MoQ Streaming Format Registry
-
-This document creates a new entry in the "MoQ Streaming Format" Registry
-(see {{MoQTransport}} Sect 8). The type value is 0x002, the name is
-"LOC Streaming Format" and the RFC is XXX.
+| Type | Name                | Scope  | Specification           |
+|:-----|:--------------------|:-------|:------------------------|
+| 0x10 | TIMESTAMP           | Object | {{timestamp}}           |
+| 0x08 | TIMESCALE           | Track, Object | {{timescale}}    |
+| 0x09 | VIDEO_FRAME_MARKING | Object | {{video-frame-marking}} |
+| 0x0C | AUDIO_LEVEL         | Object | {{audio-level}}         |
+| 0x0D | VIDEO_CONFIG        | Track, Object | {{vconfig}}      |
+| 0x0F | AUDIO_CONFIG        | Track, Object | {{aconfig}}      |
 
 --- back
 
