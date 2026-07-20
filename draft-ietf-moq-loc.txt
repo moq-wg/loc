@@ -5,9 +5,9 @@
 Media Over QUIC                                                M. Zanaty
 Internet-Draft                                             S. Nandakumar
 Intended status: Standards Track                                   Cisco
-Expires: 20 January 2027                                     P. Thatcher
+Expires: 21 January 2027                                     P. Thatcher
                                                                Microsoft
-                                                            19 July 2026
+                                                            20 July 2026
 
 
                       Low Overhead Media Container
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 January 2027.
+   This Internet-Draft will expire on 21 January 2027.
 
 Copyright Notice
 
@@ -109,7 +109,6 @@ Table of Contents
      5.4.  Deletion Detection
    6.  IANA Considerations
      6.1.  MOQ Properties Registry
-     6.2.  MoQ Streaming Format Registry
    7.  References
      7.1.  Normative References
      7.2.  Informative References
@@ -279,7 +278,7 @@ Table of Contents
 
    The following sections define specific metadata as LOC Public and
    Private Properties and register them in the IANA registry for MOQ
-   Object Properties.
+   Properties.
 
    Other specifications can define other metadata as LOC Public and
    Private Properties and register them in the same registry.  Each
@@ -309,7 +308,7 @@ Table of Contents
       timestamp is interpreted as wall-clock time in microseconds since
       the Unix epoch.
 
-   *  ID: 0x0A
+   *  ID: 0x10
 
    *  Length: Omitted (ID is even)
 
@@ -346,7 +345,7 @@ Table of Contents
       VideoDecoderConfig description property in the
       EncodedVideoChunkMetadata.
 
-   *  ID: 0x0D (IANA, please assign from the MOQ Properties Registry)
+   *  ID: 0x0D
 
    *  Length: Varies
 
@@ -361,7 +360,7 @@ Table of Contents
       spatial layer identification, as defined in [RFC9626], encoded
       with a length prefix.
 
-   *  ID: 0x09 (IANA, please assign from the MOQ Properties Registry)
+   *  ID: 0x09
 
    *  Length: Varies (1-4 bytes)
 
@@ -378,7 +377,7 @@ Table of Contents
       AudioDecoderConfig description property in the
       EncodedAudioChunkMetadata.
 
-   *  ID: 0x0F (IANA, please assign from the MOQ Properties Registry)
+   *  ID: 0x0F
 
    *  Length: Varies
 
@@ -393,7 +392,7 @@ Table of Contents
       section 3 of [RFC6464], encoded in the least significant 8 bits of
       a vi64.
 
-   *  ID: 0x0C (IANA, please assign from the MOQ Properties Registry)
+   *  ID: 0x0C
 
    *  Length: Omitted (ID is even)
 
@@ -779,24 +778,26 @@ Table of Contents
 
 6.1.  MOQ Properties Registry
 
-   This document registers the following entries in the "MOQ property
-   Headers" registry established by [MoQTransport]:
+   This document registers the following entries in the MOQ Properties
+   registry established by [MoQTransport]:
 
-         +======+===========+=================+=================+
-         | Type | Name      | Scope           | Specification   |
-         +======+===========+=================+=================+
-         | 0x0A | TIMESTAMP | Object          | Section 2.3.1.1 |
-         +------+-----------+-----------------+-----------------+
-         | 0x08 | TIMESCALE | Track or Object | Section 2.3.1.2 |
-         +------+-----------+-----------------+-----------------+
+     +======+=====================+===============+=================+
+     | Type | Name                | Scope         | Specification   |
+     +======+=====================+===============+=================+
+     | 0x10 | TIMESTAMP           | Object        | Section 2.3.1.1 |
+     +------+---------------------+---------------+-----------------+
+     | 0x08 | TIMESCALE           | Track, Object | Section 2.3.1.2 |
+     +------+---------------------+---------------+-----------------+
+     | 0x09 | VIDEO_FRAME_MARKING | Object        | Section 2.3.2.2 |
+     +------+---------------------+---------------+-----------------+
+     | 0x0C | AUDIO_LEVEL         | Object        | Section 2.3.3.2 |
+     +------+---------------------+---------------+-----------------+
+     | 0x0D | VIDEO_CONFIG        | Track, Object | Section 2.3.2.1 |
+     +------+---------------------+---------------+-----------------+
+     | 0x0F | AUDIO_CONFIG        | Track, Object | Section 2.3.3.1 |
+     +------+---------------------+---------------+-----------------+
 
                                  Table 1
-
-6.2.  MoQ Streaming Format Registry
-
-   This document creates a new entry in the "MoQ Streaming Format"
-   Registry (see [MoQTransport] Sect 8).  The type value is 0x002, the
-   name is "LOC Streaming Format" and the RFC is XXX.
 
 7.  References
 
