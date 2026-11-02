@@ -232,10 +232,12 @@ to microseconds since Unix epoch.
 * Length: Omitted (ID is even)
 * Value: vi64 (1-9 bytes)
 
-#### Codecstring
+#### Codec String
 
-* Name: Codecstring
-* Description: Codec string as defined by WebCodecs Codec Registry
+* Name: Codec String
+* Description: Codec string in UTF-8 as defined by the WebCodecs Codec Registry
+which maps to the codec property (in UTF-16) in the WebCodecs AudioDecoderConfig
+or VideoDecoderConfig.
 * ID: 0x11
 * Length: Varies
 * Value: Varies
