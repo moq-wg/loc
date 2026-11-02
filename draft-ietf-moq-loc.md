@@ -682,6 +682,7 @@ registry established by {{MoQTransport}}:
 | 0x0C | AUDIO_LEVEL         | Object | {{audio-level}}         |
 | 0x0D | VIDEO_CONFIG        | Track, Object | {{vconfig}}      |
 | 0x0F | AUDIO_CONFIG        | Track, Object | {{aconfig}}      |
+| 0x11 | CODEC_STRING        | Track, Object | {{codec-string}} |
 
 --- back
 
