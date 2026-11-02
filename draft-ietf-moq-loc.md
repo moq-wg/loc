@@ -232,6 +232,16 @@ to microseconds since Unix epoch.
 * Length: Omitted (ID is even)
 * Value: vi64 (1-9 bytes)
 
+#### Codec String
+
+* Name: Codec String
+* Description: Codec string in UTF-8 as defined by the WebCodecs Codec Registry
+which maps to the codec property (in UTF-16) in the WebCodecs AudioDecoderConfig
+or VideoDecoderConfig.
+* ID: 0x11
+* Length: Varies
+* Value: Varies
+
 ### Video Properties
 
 #### Video Config {#vconfig}
